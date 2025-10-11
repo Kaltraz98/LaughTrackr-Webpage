@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Bootstrap Via CDN -->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="static/style_folder/laughtrackr.css" />
+    <title>IndexPage</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+
+  <!-- Navigation Bar (Sourced from Bootstrap example)-->
+    <nav
+      class="navbar navbar-expand-lg fixed-top"
+      style="background-color: #ffbfbf"
+    >
+      <div class="container-fluid" style="background-color: #ffbfbf">
+        <a class="navbar-brand" href="http://127.0.0.1:5500/IndexPage.html#"
+          >LaughTrackr</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+       <!-- Creating list elements for nav bar -->
+       </button>
+       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+           <li class="nav-item">
+             <a class="nav-link" href="http://127.0.0.1:5500/IndexPage.html#"
+               >All Events</a
+              >
+            </li>
+              <!-- Dropdown menu inside navbar-->
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Account</a
+              >
+              <ul class="dropdown-menu">
+                <li class="dropdown-item">Sign In</li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="http://127.0.0.1:5500/EventCreationPage.html"
+                    >Create Event</a
+                  >
+                </li>
+
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="http://127.0.0.1:5500/UserBookingHistoryPage.html"
+                    >Booking History</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#">Account Settings</a></li>
+              </ul>
+            </li>
+          </ul>
+            <!-- Search bar on right of navbar -->
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </head>
+
+  <!-- Call to JS -->
+<body style="background-color: #000000d7;">
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"
+  ></script>
+
+    <header></header>
+    <main>
+      <!-- Scrolling Event Images (Source of carousel from Boostrap and images from Google)-->
+      <div class="container mt-5">
+        <div
+          id="carouselExample"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <!-- First Photo -->
+            <div class="carousel-item active">
+              <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                <img
+                  src="static/img_folder/Aunty Donna.jpg"
+                  class="d-block w-100"
+                  alt="First Slide"
+                />
+              </a>
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Aunty Donna</h5>
+                <p>DREM Worldwide Tour</p>
+              </div>
+            </div>
+            <!-- Second Photo -->
+            <div class="carousel-item">
+              <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                <img
+                  src="static/img_folder/Daniel Sloss.jpg"
+                  class="d-block w-100"
+                  alt="Second Slide"
+                />
+              </a>
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Daniel Sloss</h5>
+                <p>BITTER Australia Tour</p>
+              </div>
+            </div>
+            <!-- Third photo -->
+            <div class="carousel-item">
+              <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                <img
+                  src="static/img_folder/James Acastor.jpg"
+                  class="d-block w-100"
+                  alt="Third Slide"
+                />
+              </a>
+              <div class="carousel-caption d-none d-md-block">
+                <h5>James Acastor</h5>
+                <p>Hecklers Welcome at The International Comedy Festival</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Back and Forward buttons -->
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Trending events + availability status -->
+      <div class="container text-center">
+        <div class="row" style="background-color: #ffbfbf">
+          <style></style>
+          <h2><b>Whats On</b></h2>
+
+          <div class="container py-5">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+              <!-- Whats On and available-->
+              <div class="col">
+                <div class="card shadow-sm">
+                  <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                    <img
+                      src="static/img_folder/fallon.jpg"
+                      class="card-img-top fixed-size"
+                      alt="Album Image"
+                    />
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title">Jimmy Fallon</h5>
+                    <p class="card-text">HE IS SO FUNNY AHAHAHA</p>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                        <button
+                          class="btn btn-sm btn-outline-primary availible"
+                        >
+                          Availible
+                        </button></a
+                      >
+                      <small class="text-muted">2 days ago</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Whats on2 that is sold out-->
+              <div class="col">
+                <div class="card shadow-sm">
+                  <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                    <img
+                      src="static/img_folder/JimmyBeast.jpg"
+                      class="card-img-top fixed-size"
+                      alt="Album Image"
+                    />
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title">Jimmy Beast</h5>
+                    <p class="card-text">He is SOOOOO FUNNY!</p>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <a href="http://127.0.0.1:5500/EventDetailsPage.html"
+                        ><button
+                          class="btn btn-sm btn-outline-primary sold_out"
+                        >
+                          Sold Out
+                        </button></a
+                      >
+                      <small class="text-muted">5 mins ago</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Whats On3 and available -->
+              <div class="col">
+                <div class="card shadow-sm">
+                  <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                    <img
+                      src="static/img_folder/JimmyCarr.jpg"
+                      class="card-img-top fixed-size"
+                      alt="Album Image"
+                    />
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title">Jimmy Carr</h5>
+                    <p class="card-text">
+                      He is Funny, but not as funny as Mr Jimmy Beast
+                    </p>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <a href="http://127.0.0.1:5500/EventDetailsPage.html">
+                        <button
+                          class="btn btn-sm btn-outline-primary availible"
+                        >
+                          Availible
+                        </button></a
+                      >
+                      <small class="text-muted"> 20 days ago</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Categories referencing comedy rating-->
+      <div class="container text-center" style="padding-bottom: 2%">
+        <div
+          class="row"
+          style="padding-bottom: 10px; background-color: #ffbfbf"
+          ;
+        >
+          <h1><b>Event Categories</b></h1>
+          <div class="col-md-4">
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="static/img_folder/Wiggles.png"
+                alt="Card image cap"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="static/img_folder/Mature Audience.png"
+                alt="Card image cap"
+              />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="static/img_folder/Adult Humour.png"
+                alt="Card image cap"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
