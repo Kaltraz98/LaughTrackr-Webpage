@@ -14,3 +14,5 @@ Google. (2025). Image Search. Google Images. https://www.google.com/imghp?hl=en-
 McIvor, H. (2025). Tour. Randy Feltface. https://www.feltface.com/ 
 Ruane, Z., Kelly, B., & Bonanno, M. (2025). World Tour. Aunty Donna. https://tour.auntydonna.com/ 
 Refsnes Data. (2025). JavaScript DOM EventListener. W3Schools. https://www.w3schools.com/js/js_htmldom_eventlistener.asp 
+
+Here is a list of sources used to create my Assessment 2 for IAB207 Rapid Web Development.
