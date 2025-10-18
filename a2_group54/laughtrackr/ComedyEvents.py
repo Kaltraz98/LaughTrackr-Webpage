@@ -1,45 +1,37 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .models import Event, Comment
-from .Userforms import DestinationForm, CommentForm
+from .models import Event, Venue, Rating
+from .eventforms import EventForm
+from .NewEvent import *
+from laughtrackr import db
 
-destbp = Blueprint('destination', __name__, url_prefix='/events')
+destbp = Blueprint('events', __name__, url_prefix='/events')
 
 @destbp.route('/<id>')
 def show(id):
-    event = get_event()
-    return render_template('destinations/show.html', event=event)
+    event = get_event(id)
+    return render_template('ComedyEvent/show.html', event=event)
 
 @destbp.route('/create', methods=['GET', 'POST'])
 def create():
-  print('Method type: ', request.method)
-  form = DestinationForm()
-  if form.validate_on_submit():
-    print('Successfully created new travel event')
-    return redirect(url_for('event.create'))
-  return render_template('event/create.html', form=form)
+    print('Method type: ', request.method)
+    create_form = EventForm()
+    create_form.rating.choices = [(r.id, r.label) for r in Rating.query.all()]
+    create_form.venue.choices = [(v.id, v.name) for v in Venue.query.all()]
+    if create_form.validate_on_submit():
+        new_event = Event(
+            name=create_form.name.data,
+            description=create_form.description.data,
+            image=create_form.image.data,
+            cost=create_form.cost.data,
+            rating_id=create_form.rating.data,
+            venue_id=create_form.venue.data,
+            event_date=create_form.event_date.data
+        )
+        db.session.add(new_event)
+        db.session.commit()
+        print('Successfully created new comedy event')
+        return redirect(url_for('events.show', id=new_event.id))
+    return render_template('EventcreationPage.html', form=create_form)
 
-@destbp.route('/<id>/comment', methods=['GET', 'POST'])
-def comment(id):
-  # here the form is created  form = CommentForm()
-  form = CommentForm()
-  if form.validate_on_submit():	#this is true only in case of POST method
-    print("The following comment has been posted:", form.text.data)
-  # notice the signature of url_for
-  return redirect(url_for('destination.show', id=1))
-
-def get_event():
-  # creating the description of Brazil
-  b_desc = """Brazil is considered an advanced emerging economy.
-   It has the ninth largest GDP in the world by nominal, and eight by PPP measures. 
-   It is one of the world\'s major breadbaskets, being the largest producer of coffee for the last 150 years."""
-   # an image location
-  image_loc = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFyC8pBJI2AAHLpAVih41_yWx2xxLleTtdshAdk1HOZQd9ZM8-Ag'
-  event = Event('Brazil', b_desc, image_loc, 'R$10')
-  # a comment
-  comment = Comment("Sam", "Visited during the olympics, was great", '2023-08-12 11:00:00')
-  destination.set_comments(comment)
-  comment = Comment("Bill", "free food!", '2023-08-12 11:00:00')
-  destination.set_comments(comment)
-  comment = Comment("Sally", "free face masks!", '2023-08-12 11:00:00')
-  destination.set_comments(comment)
-  return event
+def get_event(id):
+  return Event.query.get(id)

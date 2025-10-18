@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
         return f"Name: {self.name}"
 
 class Event(db.Model):
-    __tablename__ = 'Events'
+    __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     description = db.Column(db.String(200))
@@ -28,7 +28,7 @@ class Event(db.Model):
     rating = db.relationship('Rating', backref='event')
     rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'))
     comments = db.relationship('Comment', backref='event')
-    venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'))
+    venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
     event_date = db.Column(db.DateTime, nullable=False)
 	# string print method
     def __repr__(self):
@@ -47,7 +47,7 @@ class Comment(db.Model):
         return f"Comment: {self.text}"
     
 class Venue(db.Model):
-    __tablename__ = 'Venue'
+    __tablename__ = 'venue'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200))
@@ -59,10 +59,10 @@ class Venue(db.Model):
         }
         return h_dict
 
-class rating(db.Model):
-    __tablename__ = 'Rating'
+class Rating(db.Model):
+    __tablename__ = 'rating'
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f"<Rating {self.id}: {self.label}>"
+        return f"<rating {self.id}: {self.label}>"
