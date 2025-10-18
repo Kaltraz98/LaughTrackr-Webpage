@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from .forms import LoginForm, RegisterForm
+from .Userforms import LoginForm, RegisterForm
 
 # create a blueprint
 authbp = Blueprint('auth', __name__ )
