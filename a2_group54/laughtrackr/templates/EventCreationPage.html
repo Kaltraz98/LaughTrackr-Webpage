@@ -1,78 +1,59 @@
 {% extends "base.html" %}
 {% from 'bootstrap5/form.html' import render_form %}
 {% block content %}
-  <!-- Call to JS -->
-<body style="background-color: #000000d7;">
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"
-  ></script>
-  </head>
-
   <div class="container mt-5 pt-5">
-    <div class="row">
-      <!-- Booking Form-->
-      <div class="col-md-8 mb-4">
-        <h2 class="text-center text-light mb-4">Event Booking Form</h2>
-        <form>
-          <!-- Name free field-->
-          <div class="mb-3">
-            <label for="name" class="form-label text-light">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter your name" />
-          </div>
+  <div class="row">
+    <!-- Booking Form-->
+    <div class="col-md-8 mb-4">
+      <h2 class="text-center text-light mb-4">Event Booking Form</h2>
+      <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
 
-          <!-- Cost free field with suggested currency-->
-          <div class="mb-3">
-            <label for="cost" class="form-label text-light">Cost</label>
-            <input type="number" class="form-control" id="cost" placeholder="$ (AUD)" />
-          </div>
+        <div class="mb-3">
+          {{ form.name.label(class="form-label text-light") }}
+          {{ form.name(class="form-control", placeholder="Enter your name") }}
+        </div>
 
-          <!-- Date free field with suggested format-->
-          <div class="mb-3">
-            <label for="Date" class="form-label text-light">Time and Date of the Event</label>
-            <input type="text" class="form-control" id="Date" placeholder="00:00-DD-MM-YYYY" />
-          </div>
+        <div class="mb-3">
+          {{ form.cost.label(class="form-label text-light") }}
+          {{ form.cost(class="form-control", placeholder="$ (AUD)") }}
+        </div>
 
-          <!-- Rating Selector for type of comedy (source for dropdown from Bootsrap)-->
-          <div class="mb-3">
-            <label for="rating" class="form-label text-light">Rating</label>
-            <select class="form-select" id="rating">
-              <option selected disabled>Choose rating</option>
-              <option value="1">Family Friendly</option>
-              <option value="2">Adult Humour</option>
-              <option value="3">Mature Audiences</option>
-              <option value="4">All Audiences</option>
-            </select>
-          </div>
+        <div class="mb-3">
+          {{ form.event_date.label(class="form-label text-light") }}
+          {{ form.event_date(class="form-control", placeholder="00:00-DD-MM-YYYY") }}
+        </div>
 
-          <!-- Venue free field-->
-          <div class="mb-3">
-            <label for="venue" class="form-label text-light">Venue</label>
-            <input type="text" class="form-control" id="venue" placeholder="Enter venue name" />
-          </div>
+        <div class="mb-3">
+          {{ form.rating.label(class="form-label text-light") }}
+          {{ form.rating(class="form-select") }}
+        </div>
 
-          <!-- Description free field-->
-          <div class="mb-3">
-            <label for="description" class="form-label text-light">Event Description</label>
-            <textarea class="form-control" id="description" rows="4" placeholder="Describe the event..."></textarea>
-          </div>
+        <div class="mb-3">
+          {{ form.venue.label(class="form-label text-light") }}
+          {{ form.venue(class="form-select") }}
+        </div>
 
-          <!-- Image Upload (Sourced from Bootstrap)-->
-          <div class="mb-3">
-            <label for="formFile" class="form-label text-light">Upload Promo Photo</label>
-            <input class="form-control" type="file" id="formFile" accept="image/*" />
-          </div>
+        <div class="mb-3">
+          {{ form.description.label(class="form-label text-light") }}
+          {{ form.description(class="form-control", rows="4", placeholder="Describe the event...") }}
+        </div>
 
-          <!-- Submit Button-->
-          <button type="submit" class="btn btn-primary">Create Event</button>
-        </form>
-      </div>
+        <div class="mb-3">
+          {{ form.image.label(class="form-label text-light") }}
+          {{ form.image(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.submit(class="btn btn-primary") }}
+        </div>
+      </form>
+    </div>
 
 
       <!-- Testimonial -->
       <div class="col-md-4 text-center pt-4">
-        <img src="static/img_folder/JimmyBeast.jpg" alt="Promo" class="img-fluid rounded mb-3 border_box" />
+        <img src="{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}" alt="Promo" class="img-fluid rounded mb-3 border_box" />
         <div class="text_pill text-light">
           <p><strong>LaughTrackr</strong> helped me reach new audiences from around the world!</p>
           <p>Book your event with <strong>LaughTrackr!</strong></p>
