@@ -11,7 +11,7 @@ def login():
         print('Successfully logged in')
         flash('You logged in successfully')
         return redirect(url_for('auth.login'))
-    return render_template('user.html', form=loginForm, heading='Login')
+    return render_template('LoginForm.html', form=loginForm, heading='Login')
 
 @authbp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -19,4 +19,5 @@ def register():
     if form.validate_on_submit():
         print('Successfully registered')
         return redirect(url_for('auth.login'))
-    return render_template('user.html', form=form)
+    return render_template('RegisterForm.html', form=form)
+

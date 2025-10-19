@@ -2,38 +2,41 @@ from . import db
 from datetime import datetime
 from flask_login import UserMixin
 
+# Create User DB
 class User(db.Model, UserMixin):
-    __tablename__ = 'users' # good practice to specify table name
+    __tablename__ = 'users' # table name
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), index=True, unique=True, nullable=False)
-    emailid = db.Column(db.String(100), index=True, nullable=False)
-	#password is never stored in the DB, an encrypted password is stored
-	# the storage should be at least 255 chars long
+    name = db.Column(db.String(100), index=True, nullable=False)
+    emailid = db.Column(db.String(100), index=True, unique=True, nullable=False)
+	# encrypted password must be at least 255 chars long
     password_hash = db.Column(db.String(255), nullable=False)
-    # relation to call user.comments and comment.created_by
-    comments = db.relationship('Comment', backref='user')
+    # relation to comments = Many to many 
+    comments = db.relationship('Comment', backref='user', cascade='all, delete-orphan')
 
-    # string print method
+    # string print
     def __repr__(self):
-        return f"Name: {self.name}"
+       return f"<User {self.name}>"
 
+# Create Event DB
 class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
-    cost = db.Column(db.String(3))
-    #Relationships
+    cost = db.Column(db.float)
+    # Foriegn Keys
     rating = db.relationship('Rating', backref='event')
     rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'))
     comments = db.relationship('Comment', backref='event', lazy=True)
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
     venue = db.relationship('Venue', backref='events')
     event_date = db.Column(db.DateTime, nullable=False)
-	# string print method
+    
+	# string print 
     def __repr__(self):
-        return f"Name: {self.name}"
+        return f"<event {self.name} in {self.venue}>"
+
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -45,8 +48,6 @@ class Comment(db.Model):
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
     
 
-    def __repr__(self):
-        return f"Comment: {self.text}"
     
 class Venue(db.Model):
     __tablename__ = 'venue'
@@ -54,6 +55,8 @@ class Venue(db.Model):
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200))
     seating_capacity = db.Column(db.Integer, nullable=False)
+    image = db.Column(db.String(300), nullable=False)
+
 
     def to_dict(self):
         h_dict = {
@@ -63,8 +66,11 @@ class Venue(db.Model):
 
 class Rating(db.Model):
     __tablename__ = 'rating'
+    rating = db.relationship('Rating', backref='event')
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f"<rating {self.id}: {self.label}>"
+    
+   
