@@ -28,8 +28,9 @@ class Event(db.Model):
     # Foriegn Keys
     rating = db.relationship('Rating', backref='event')
     rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'))
-    comments = db.relationship('Comment', backref='event', cascade='all, delete-orphan')
+    comments = db.relationship('Comment', backref='event', lazy=True)
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
+    venue = db.relationship('Venue', backref='events')
     event_date = db.Column(db.DateTime, nullable=False)
     
 	# string print 
@@ -42,12 +43,10 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(400))
     created_at = db.Column(db.DateTime, default=datetime.now())
-    # foreign keys
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    # add the foreign keys
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
-
-def __repr__(self):
-    return f"<Comment by User {self.user_id} on Event {self.event_id}>"
+    
 
     
 class Venue(db.Model):

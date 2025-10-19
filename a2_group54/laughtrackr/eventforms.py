@@ -18,3 +18,16 @@ class EventForm(FlaskForm):
     venue = SelectField('Venue', coerce=int, validators=[InputRequired()])
     event_date = DateTimeField('Event Date', format='%Y-%m-%d %H:%M', validators=[InputRequired()])
     submit = SubmitField("Create")
+
+class Details_Form(FlaskForm):
+  name = StringField('Name of the Event', validators=[InputRequired()])
+  description = TextAreaField('Description', validators=[InputRequired()])
+  image = FileField('Event Image', validators=[
+      FileRequired(message='Image cannot be empty'),
+      FileAllowed(ALLOWED_FILE, message='Only supports PNG, JPG, JPEG')
+  ])
+  cost = StringField('Cost', validators=[InputRequired()])
+  rating = SelectField('Rating', coerce=int, validators=[InputRequired()])
+  venue = SelectField('Venue', coerce=int, validators=[InputRequired()])
+  event_date = DateTimeField('Event Date', format='%Y-%m-%d %H:%M', validators=[InputRequired()])
+  submit = SubmitField("Create")
