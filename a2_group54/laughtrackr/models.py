@@ -27,8 +27,9 @@ class Event(db.Model):
     #Relationships
     rating = db.relationship('Rating', backref='event')
     rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'))
-    comments = db.relationship('Comment', backref='event')
+    comments = db.relationship('Comment', backref='event', lazy=True)
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
+    venue = db.relationship('Venue', backref='events')
     event_date = db.Column(db.DateTime, nullable=False)
 	# string print method
     def __repr__(self):
@@ -41,6 +42,7 @@ class Comment(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now())
     # add the foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
     
 
     def __repr__(self):
