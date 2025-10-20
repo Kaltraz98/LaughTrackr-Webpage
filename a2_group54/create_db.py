@@ -6,11 +6,9 @@ ctx.push()
 db.create_all()
 
 #Add Venue
-venue = Venue(name="Palais Theatre", address="St Kilda, VIC", seating_capacity=2896)
-db.session.add(venue)
+Palis = Venue(name="Palais Theatre", address="St Kilda, VIC", seating_capacity=2896)
+db.session.add(Palis)
 db.session.commit()
-
-
 
 #Ratings
 rating_labels = ["G", "PG", "M", "MA15+", "R18+"]
@@ -19,16 +17,17 @@ for label in rating_labels:
         db.session.add(Rating(label=label))
 
 # Create new event
-event = Event(
+AuntyDonna = Event(
     name="DREM International Tour",
     description="Aunty Donna's new live sketch show — wild, hilarious, and unforgettable.",
-    image="img_folder/DREMTOUR.png",  # relative path in /static/
-    cost="45",  # string format as per your model
+    image="img_folder/DREMTOUR.png",  
+    cost="45",  
     rating_id=1,
     venue_id=1,
-    event_date=datetime(2025, 12, 13, 20, 0)  # Dec 13, 2025 at 8:00 PM
+    event_date=datetime(2025, 12, 13, 20, 0) , 
+    event_addinfo ="https://www.auntydonna.com/"
 )
-db.session.add(event)
+db.session.add(AuntyDonna)
 db.session.commit()
 
 quit()

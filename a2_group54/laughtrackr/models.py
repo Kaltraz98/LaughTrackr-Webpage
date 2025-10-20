@@ -24,7 +24,7 @@ class Event(db.Model):
     name = db.Column(db.String(80))
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
-    cost = db.Column(db.float)
+    cost = db.Column(db.Float)
     # Foriegn Keys
     rating = db.relationship('Rating', backref='event')
     rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'))
@@ -32,6 +32,7 @@ class Event(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
     venue = db.relationship('Venue', backref='events')
     event_date = db.Column(db.DateTime, nullable=False)
+    event_addinfo = db.Column(db.String(500), nullable=True)
     
 	# string print 
     def __repr__(self):
@@ -46,7 +47,6 @@ class Comment(db.Model):
     # add the foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
-    
 
     
 class Venue(db.Model):
@@ -55,8 +55,7 @@ class Venue(db.Model):
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200))
     seating_capacity = db.Column(db.Integer, nullable=False)
-    image = db.Column(db.String(300), nullable=False)
-
+    
 
     def to_dict(self):
         h_dict = {
@@ -66,11 +65,9 @@ class Venue(db.Model):
 
 class Rating(db.Model):
     __tablename__ = 'rating'
-    rating = db.relationship('Rating', backref='event')
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f"<rating {self.id}: {self.label}>"
-    
+        return f"<Rating {self.id}: {self.label}>"
    

@@ -15,8 +15,8 @@ def details(id):
 def create():
     print('Method type: ', request.method)
     create_form = EventForm()
-    #create_form.rating.choices = [(r.id, r.label) for r in Rating.query.all()]
-    #create_form.venue.choices = [(v.id, v.name) for v in Venue.query.all()]
+    create_form.rating.choices = [(r.id, r.label) for r in Rating.query.all()]
+    create_form.venue.choices = [(v.id, v.name) for v in Venue.query.all()]
     if create_form.validate_on_submit():
         new_event = Event(
             name=create_form.name.data,
