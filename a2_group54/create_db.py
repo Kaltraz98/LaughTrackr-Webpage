@@ -8,6 +8,8 @@ db.create_all()
 #Add Venue
 Palis = Venue(name="Palais Theatre", address="St Kilda, VIC", seating_capacity=2896)
 db.session.add(Palis)
+Tivoli = Venue(name="Tivoli", address="Fortitude Valley, QLD", seating_capacity=1)
+db.session.add(Tivoli)
 db.session.commit()
 
 #Ratings
@@ -27,7 +29,18 @@ AuntyDonna = Event(
     event_date=datetime(2025, 12, 13, 20, 0) , 
     event_addinfo ="https://www.auntydonna.com/"
 )
+JimmyBeast = Event(
+    name="DJ BEAST",
+    description="TAG LINE",
+    image="img_folder/JimmyBeast.jpg",  
+    cost="4500",  
+    rating_id=4,
+    venue_id=2,
+    event_date=datetime(2025, 12, 13, 20, 0) , 
+    event_addinfo ="CHECK OUT JIMMY BEAST"
+)
 db.session.add(AuntyDonna)
+db.session.add(JimmyBeast)
 db.session.commit()
 
 quit()

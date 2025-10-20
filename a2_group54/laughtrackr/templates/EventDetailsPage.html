@@ -8,13 +8,18 @@
    
     <!-- Event Image -->
     <div class="row mb-4">
+      {% if event.image %}
       <img src="{{ url_for('static', filename=event.image) }}" class="img-fluid" alt="{{ event.name }} Banner">
+      {% else %}
+    <p class="text-light">No image available for this event.</p>
+    {% endif %}
+
     </div>
 
     <div class="row">
       <!-- Event Description with Accordion (Sourced from Bootstrap)-->
       <div class="col-md-6">
-        <div class="text_pill p-3" style="border-radius: 5%;">
+        <div class="text_pill p-3" style="border-radius: 5%; background-color: white;">
           <h2><strong>{{ event.name }}</strong></h2>
           <p>{{ event.description }}
           </p>
@@ -61,7 +66,7 @@
 
       <!-- Ticket Purchase Form -->
       <div class="col-md-6">
-        <div class="text_pill p-3" style="border-radius: 5%;">
+        <div class="text_pill p-3" style="border-radius: 5%; background-color: white;"">
           <!-- Number of Tickets slsection options 1to6-->
           <div class="mb-3">
             <label for="validation0" class="form-label">Number of Tickets</label>
@@ -79,7 +84,7 @@
 
           <!-- Personal Details Form free fields-->
           <form class="row g-3">
-            <div class="col-md-6">
+            <div class="col-md-6" style="background-color: white;">
               <label for="validation1" class="form-label">First name</label>
               <input type="text" class="form-control is-valid" id="validation1" required>
               <div class="valid-feedback">Looks good!</div>
@@ -145,7 +150,7 @@
               </button>
             </div>
             <div class="col">
-              <div class="mb-3" style="border: 1px solid black; border-radius: 50rem;">
+              <div class="mb-3" style="border: 1px solid black; border-radius: 50rem; background-color: white;">
                 <label id="TotalCost" class="form-label px-3">Total:</label>
               </div>
             </div>
@@ -201,11 +206,12 @@
 <script>
   const dropdown = document.getElementById('validation0');
   const label = document.getElementById('TotalCost');
+  const ticketCost = parseFloat("{{ event.cost | float }}"); 
 
   dropdown.addEventListener('change', () => {
     const value = parseInt(dropdown.value);
     label.textContent = !isNaN(value)
-      ? `Total: $ ${value * 30}`
+      ? `Total: $ ${value * ticketCost}`
       : 'Result will appear here';
   });
 </script>

@@ -1,17 +1,16 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from .models import *
 from .eventforms import *
-from .NewEvent import *
 from laughtrackr import db
 
-destbp = Blueprint('events', __name__, url_prefix='/events')
+eventsbp = Blueprint('events', __name__, url_prefix='/events')
 
-@destbp.route('/details/<int:id>', methods=['GET', 'POST'])
+@eventsbp.route('/details/<int:id>', methods=['GET', 'POST'])
 def details(id):
     event = Event.query.get_or_404(id)
     return render_template('EventDetailsPage.html', event=event)
 
-@destbp.route('/create', methods=['GET', 'POST'])
+@eventsbp.route('/create', methods=['GET', 'POST'])
 def create():
     print('Method type: ', request.method)
     create_form = EventForm()
@@ -30,7 +29,7 @@ def create():
         db.session.add(new_event)
         db.session.commit()
         print('Successfully created new comedy event')
-        return redirect(url_for('events.details'))
+        return redirect(url_for('events.details', id=new_event.id))
     return render_template('EventcreationPage.html', form=create_form)
 
 def get_event(id):

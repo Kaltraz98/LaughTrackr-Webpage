@@ -21,7 +21,7 @@ def create_app():
     from . import views
     app.register_blueprint(views.mainbp)
     from . import ComedyEvents
-    app.register_blueprint(ComedyEvents.destbp)
+    app.register_blueprint(ComedyEvents.eventsbp)
     from . import auth
     app.register_blueprint(auth.authbp)
 
