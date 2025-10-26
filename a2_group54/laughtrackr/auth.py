@@ -20,4 +20,3 @@ def register():
         print('Successfully registered')
         return redirect(url_for('auth.login'))
     return render_template('RegisterForm.html', form=form)
-
