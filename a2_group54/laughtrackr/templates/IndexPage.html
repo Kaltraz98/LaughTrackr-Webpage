@@ -1,239 +1,126 @@
 {% extends 'base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    {% block header %}
-    {% endblock %}
-  </head>
-  <body style="background-color: #000000d7;">
-    <main>
-    {% block content %}
-      <!-- Scrolling Event Images (Source of carousel from Boostrap and images from Google)-->
-      <div class="container mt-5">
-        <div
-          id="carouselExample"
-          class="carousel slide"
-          data-bs-ride="carousel"
 
-         <div class="carousel-inner">
-          {% for event in events %}
-            {% if event.name == "Aunty Donna" %}
-              <div class="carousel-item {% if loop.first %}active{% endif %}">
-                <a href="{{ url_for('events.events', id=event.id) }}">
-                  <img src="{{ url_for('static', filename=event.image_path) }}" class="d-block w-100" alt="{{ event.name }}">
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<!-- Scrolling Event Images Carousel -->
+<div class="container mt-5">
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% for event in events %}
+      <div class="carousel-item {% if loop.first %}active{% endif %}">
+        <a href="{{ url_for('events.events', id=event.id) }}">
+          <img src="{{ url_for('static', filename=event.image_path) }}" class="d-block w-100" alt="{{ event.name }}">
+        </a>
+        <div class="carousel-caption d-none d-md-block">
+          <h5>{{ event.name }}</h5>
+          <p>{{ event.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Carousel Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<!-- Trending Events Section -->
+<div class="container text-center mt-5">
+  <div class="row" style="background-color: #ffbfbf">
+    <h2><b>What's On</b></h2>
+    <div class="container py-5">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+        <!-- Event Card -->
+        <div class="col">
+          <div class="card shadow-sm">
+            <a href="{{ url_for('events.events', id=4) }}">
+              <img src="{{ url_for('static', filename='img_folder/fallon.jpg') }}" class="card-img-top fixed-size" alt="Jimmy Fallon">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">Jimmy Fallon</h5>
+              <p class="card-text">HE IS SO FUNNY AHAHAHA</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('events.events', id=4) }}">
+                  <button class="btn btn-sm btn-outline-primary availible">Available</button>
                 </a>
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>{{ event.name }}</h5>
-                  <p>{{ event.description }}</p>
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-         </div>
-        >
-          <div class="carousel-inner">
-            <!-- First Photo -->
-            <div class="carousel-item active">
-            <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-              <img
-                  src="{{ url_for('static', filename='img_folder/Aunty_Donna.jpg') }}"
-                  class="d-block w-100"
-                  alt="First Slide"
-                />
-              </a>
-              <div class="carousel-caption d-none d-md-block">
-                <h5>Aunty Donna</h5>
-                <p>DREM Worldwide Tour</p>
-              </div>
-            </div>
-            <!-- Second Photo -->
-            <div class="carousel-item">
-            <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                <img
-                  src="{{ url_for('static', filename='img_folder/Daniel_Sloss.jpg') }}"
-                  class="d-block w-100"
-                  alt="Second Slide"
-                />
-              </a>
-              <div class="carousel-caption d-none d-md-block">
-                <h5>Daniel Sloss</h5>
-                <p>BITTER Australia Tour</p>
-              </div>
-            </div>
-            <!-- Third photo -->
-            <div class="carousel-item">
-            <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                <img
-                  src="{{ url_for('static', filename='img_folder/James_Acastor.jpg') }}"
-                  class="d-block w-100"
-                  alt="Third Slide"
-                />
-              </a>
-              <div class="carousel-caption d-none d-md-block">
-                <h5>James Acastor</h5>
-                <p>Hecklers Welcome at The International Comedy Festival</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Back and Forward buttons -->
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Trending events + availability status -->
-      <div class="container text-center">
-        <div class="row" style="background-color: #ffbfbf">
-          <style></style>
-          <h2><b>Whats On</b></h2>
-
-          <div class="container py-5">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-              <!-- Whats On and available-->
-              <div class="col">
-               <div class="card shadow-sm">
-               <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                    <img src="{{ url_for('static', filename='img_folder/fallon.jpg') }}"
-                    class="card-img-top fixed-size"
-                    alt="Album Image"
-                    />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">Jimmy Fallon</h5>
-                    <p class="card-text">HE IS SO FUNNY AHAHAHA</p>
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                     <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                        <button
-                          class="btn btn-sm btn-outline-primary availible"
-                        >
-                          Availible
-                        </button></a
-                      >
-                      <small class="text-muted">2 days ago</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Whats on2 that is sold out-->
-              <div class="col">
-                <div class="card shadow-sm">
-                <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                    <img src="{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}"
-                      class="card-img-top fixed-size"
-                      alt="Album Image"
-                    />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">Jimmy Beast</h5>
-                    <p class="card-text">He is SOOOOO FUNNY!</p>
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                    <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                        ><button
-                          class="btn btn-sm btn-outline-primary sold_out"
-                        >
-                          Sold Out
-                        </button></a
-                      >
-                      <small class="text-muted">5 mins ago</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Whats On3 and available -->
-              <div class="col">
-                <div class="card shadow-sm">
-               <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                    <img src="{{ url_for('static', filename='img_folder/JimmyCarr.jpg') }}"
-                      class="card-img-top fixed-size"
-                      alt="Album Image"
-                    />
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title">Jimmy Carr</h5>
-                    <p class="card-text">
-                      He is Funny, but not as funny as Jimmy Beast
-                    </p>
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                    <a href="{{ url_for('events.events', id=event.id) }}">View Details</a>
-                        <button
-                          class="btn btn-sm btn-outline-primary availible"
-                        >
-                          Availible
-                        </button></a
-                      >
-                      <small class="text-muted"> 20 days ago</small>
-                    </div>
-                  </div>
-                </div>
+                <small class="text-muted">2 days ago</small>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Event Categories referencing comedy rating-->
-      <div class="container text-center" style="padding-bottom: 2%">
-        <div
-          class="row"
-          style="padding-bottom: 10px; background-color: #ffbfbf"
-          ;
-        >
-          <h1><b>Event Categories</b></h1>
-          <div class="col-md-4">
-            <div class="card">
-             <img 
-                src="{{ url_for('static', filename='img_folder/Wiggles.png') }}"
-                class="card-img-top"
-                alt="Card image cap"
-              />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <img
-                src="{{ url_for('static', filename='img_folder/Mature Audience.png') }}"
-                class="card-img-top"
-                alt="Card image cap"
-              />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <img
-               src="{{ url_for('static', filename='img_folder/Adult Humour.png') }}"
-                class="card-img-top"
-                alt="Card image cap"
-              />
+        <!-- Sold Out Event -->
+        <div class="col">
+          <div class="card shadow-sm">
+            <a href="{{ url_for('events.events', id=5) }}">
+              <img src="{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}" class="card-img-top fixed-size" alt="Jimmy Beast">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">Jimmy Beast</h5>
+              <p class="card-text">He is SOOOOO FUNNY!</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('events.events', id=5) }}">
+                  <button class="btn btn-sm btn-outline-primary sold_out">Sold Out</button>
+                </a>
+                <small class="text-muted">5 mins ago</small>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Available Event -->
+        <div class="col">
+          <div class="card shadow-sm">
+            <a href="{{ url_for('events.events', id=6) }}">
+              <img src="{{ url_for('static', filename='img_folder/JimmyCarr.jpg') }}" class="card-img-top fixed-size" alt="Jimmy Carr">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">Jimmy Carr</h5>
+              <p class="card-text">He is Funny, but not as funny as Jimmy Beast</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="{{ url_for('events.events', id=6) }}">
+                  <button class="btn btn-sm btn-outline-primary availible">Available</button>
+                </a>
+                <small class="text-muted">20 days ago</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-    {% endblock %}
-   </main>
-  </body>
-</html>
+    </div>
+  </div>
+</div>
+
+<!-- Event Categories Section -->
+<div class="container text-center py-5">
+  <div class="row" style="background-color: #ffbfbf">
+    <h1><b>Event Categories</b></h1>
+    <div class="col-md-4">
+      <div class="card">
+        <img src="{{ url_for('static', filename='img_folder/Wiggles.png') }}" class="card-img-top" alt="Wiggles">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <img src="{{ url_for('static', filename='img_folder/Mature Audience.png') }}" class="card-img-top" alt="Mature Audience">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <img src="{{ url_for('static', filename='img_folder/Adult Humour.png') }}" class="card-img-top" alt="Adult Humour">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
