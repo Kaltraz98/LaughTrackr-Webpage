@@ -2,10 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .Userforms import LoginForm, RegisterForm
 
 # create a blueprint
-authbp = Blueprint('auth', __name__ )
+authbp = Blueprint('auth', __name__, url_prefix='/auth' )
 
 @authbp.route('/login', methods=['GET', 'POST'])
-def login():
+def logged_in():
     loginForm = LoginForm()
     if loginForm.validate_on_submit():
         print('Successfully logged in')

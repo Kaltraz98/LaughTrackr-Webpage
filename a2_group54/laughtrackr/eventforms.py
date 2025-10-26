@@ -1,3 +1,4 @@
+from flask import Flask
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, SelectField, DateTimeField
 from wtforms.validators import InputRequired, Email, EqualTo
@@ -32,3 +33,7 @@ class Details_Form(FlaskForm):
   venue = SelectField('Venue', coerce=int, validators=[InputRequired()])
   event_date = DateTimeField('Event Date', format='%Y-%m-%d %H:%M', validators=[InputRequired()])
   submit = SubmitField("Create")
+
+  highlighted_names = ["Aunty Donna", "Daniel Sloss", "James Acaster"]
+highlighted_events = [event for event in events if event.name in highlighted_names]
+return render_template("your_template.html", events=highlighted_events)

@@ -6,14 +6,14 @@ from flask import Blueprint, render_template, request, session
 
 # name - first argument is the blueprint name 
 # import name - second argument - helps identify the root url for it 
-destbp = Blueprint('login', __name__, url_prefix='/login')
+loginbp = Blueprint('login', __name__, url_prefix='/login')
 
-@destbp.route('/<id>')
+@loginbp.route('/<id>')
 def show(id):
     return render_template('login.html')
 
 #define login
-@destbp.route('/login', methods = ['GET', 'POST'])
+@loginbp.route('/login', methods = ['GET', 'POST'])
 def login():
     email = request.values.get("email")
     passwd = request.values.get("pwd")
@@ -21,7 +21,7 @@ def login():
     return render_template('IndexPage.html')
 
 #define logout
-@destbp.route('/logout')
+@loginbp.route('/logout')
 def logout():
     if 'email' in session:
         session.pop('email')

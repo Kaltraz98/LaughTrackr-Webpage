@@ -5,8 +5,13 @@ from laughtrackr import db
 
 eventsbp = Blueprint('events', __name__, url_prefix='/events')
 
+@eventsbp('/events')
+def all_events():
+    events = Event.query.all()
+    return render_template('AllEventsPage.html', events=events)
+
 @eventsbp.route('/details/<int:id>', methods=['GET', 'POST'])
-def details(id):
+def events(id):
     event = Event.query.get_or_404(id)
     return render_template('EventDetailsPage.html', event=event)
 
@@ -34,3 +39,9 @@ def create():
 
 def get_event(id):
   return Event.query.get(id)
+
+events = [
+    Event(id=1, name="Aunty Donna", description="DREM Worldwide Tour", image_path="img_folder/Aunty_Donna.jpg"),
+    Event(id=2, name="Daniel Sloss", description="BITTER Australia Tour", image_path="img_folder/Daniel_Sloss.jpg"),
+    Event(id=3, name="James Acaster", description="Hecklers Welcome", image_path="img_folder/James_Acastor.jpg")
+]

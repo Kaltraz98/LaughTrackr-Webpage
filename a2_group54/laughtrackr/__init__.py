@@ -7,10 +7,10 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
 
-    # we use this utility module to display forms quickly
+    # for displaying forms quickly
     Bootstrap5(app)
 
-    # A secret key for the session object
+    # secret key for the session object
     app.secret_key = 'somerandomvalue'
 
     # Configue and initialise DB
@@ -18,8 +18,8 @@ def create_app():
     db.init_app(app)
     
     # add Blueprints
-    from . import views
-    app.register_blueprint(views.mainbp)
+    from . import index
+    app.register_blueprint(index.mainbp)
     from . import ComedyEvents
     app.register_blueprint(ComedyEvents.eventsbp)
     from . import auth
