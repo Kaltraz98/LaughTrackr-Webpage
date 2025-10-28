@@ -11,8 +11,7 @@
       {% for event in events %}
       <div class="carousel-item {% if loop.first %}active{% endif %}">
         <a href="{{ url_for('events.events', id=event.id) }}">
-          <img src="{{ url_for('static', filename=event.image_path) }}" class="d-block w-100" alt="{{ event.name }}">
-        </a>
+          <img src="{{ url_for('static', filename=event.image) }}" class="d-block w-100" alt="{{ event.name }}">        </a>
         <div class="carousel-caption d-none d-md-block">
           <h5>{{ event.name }}</h5>
           <p>{{ event.description }}</p>
