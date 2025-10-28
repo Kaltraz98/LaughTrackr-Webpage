@@ -19,4 +19,4 @@ def register():
     if form.validate_on_submit():
         print('Successfully registered')
         return redirect(url_for('auth.login'))
-    return render_template('RegisterForm.html', form=form)
+    return render_template('RegisterForm.html', form=form, heading='Register')

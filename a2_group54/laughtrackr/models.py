@@ -33,6 +33,7 @@ class Event(db.Model):
     venue = db.relationship('Venue', backref='events')
     event_date = db.Column(db.DateTime, nullable=False)
     event_addinfo = db.Column(db.String(500), nullable=True)
+    featured = db.Column(db.Boolean, default=False)
     
 	# string print 
     def __repr__(self):
