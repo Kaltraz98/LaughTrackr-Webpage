@@ -1,29 +1,28 @@
-# Creating and registering views in blueprints to group related views into files
-# Create Blueprint
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import login_user, logout_user, current_user
+from werkzeug.security import check_password_hash
+from .models import User  # Make sure this import matches your structure
 
-# Define Route and register blueprint
+authbp = Blueprint('auth', __name__, url_prefix='/auth')
 
-# name - first argument is the blueprint name 
-# import name - second argument - helps identify the root url for it 
-loginbp = Blueprint('login', __name__, url_prefix='/login')
+@authbp.route('/login', methods=['GET', 'POST'])
+def logged_in():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('pwd')
+        user = User.query.filter_by(emailid=email).first()
 
-@loginbp.route('/<id>')
-def show(id):
+        if user and check_password_hash(user.password_hash, password):
+            login_user(user)
+            flash('Logged in successfully.', 'success')
+            return redirect(url_for('main.index'))
+        else:
+            flash('Invalid email or password.', 'danger')
+
     return render_template('login.html')
 
-#define login
-@loginbp.route('/login', methods = ['GET', 'POST'])
-def login():
-    email = request.values.get("email")
-    passwd = request.values.get("pwd")
-    print (f"Email: {email}\nPassword: {passwd}")
-    return render_template('IndexPage.html')
-
-#define logout
-@loginbp.route('/logout')
+@authbp.route('/logout')
 def logout():
-    if 'email' in session:
-        session.pop('email')
-    return 'User logged out'
-
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('main.index'))

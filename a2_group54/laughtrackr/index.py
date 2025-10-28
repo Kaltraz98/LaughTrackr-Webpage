@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template
 
-mainbp = Blueprint('main', __name__, url_prefix='/homepage')
+mainbp = Blueprint('main', __name__)  
 
-@mainbp.route('/homepage')
+@mainbp.route('/')
 def index():
     return render_template('IndexPage.html')
-

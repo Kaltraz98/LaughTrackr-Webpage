@@ -60,7 +60,7 @@
                   <li>
                     <a
                       class="dropdown-item" 
-                      href="{{ url_for('login.show') }}"
+                      href="{{ url_for('auth.logged_in')}}"
                       >Sign in</a>
                   </li>
 
@@ -79,19 +79,18 @@
                     >
                   </li>
 
+                  {% if current_user.is_authenticated %}
                   <li>
-                    <a
-                      class="dropdown-item" 
-                      href="{{ url_for('events.events', id=current_user.id) }}"
-                      >Event Details</a>
+                    <a class="dropdown-item" href="{{ url_for('events.events', id=current_user.id) }}">
+                      Event Details
+                    </a>
                   </li>
-
                   <li>
-                    <a
-                      class="dropdown-item" 
-                      href="{{ url_for('booking.showhistory', id=current_user.id) }}"
-                      >Booking History</a>
+                    <a class="dropdown-item" href="{{ url_for('booking.showhistory', id=current_user.id) }}">
+                      Booking History
+                    </a>
                   </li>
+                  {% endif %}
                 </ul>
               </li>
             </ul>
