@@ -11,7 +11,7 @@
       {% for event in events %}
       <div class="carousel-item {% if event.id == 1 %}active{% endif %}">
         <a href="{{ url_for('events.events', id=event.id) }}">
-          <img src="{{ url_for('static', filename=event.image) }}" class="d-block w-100" alt="{{ event.name }}">        
+          <img src="{{ url_for('static', filename=event.image) }}" class="d-block w-100" alt="{{ event.name }}">
         </a>
         <div class="carousel-caption d-none d-md-block">
           <h5>{{ event.name }}</h5>
@@ -36,7 +36,7 @@
 <!-- Trending Events Section -->
 <div class="container text-center mt-5">
   <div class="row" style="background-color: #ffbfbf">
-    <h2><b>What's On</b></h2>
+    <h2><strong>What's On</strong></h2>
     <div class="container py-5">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
 
@@ -105,7 +105,7 @@
 <!-- Event Categories Section -->
 <div class="container text-center py-5">
   <div class="row" style="background-color: #ffbfbf">
-    <h1><b>Event Categories</b></h1>
+    <h1><strong>Event Categories</strong></h1>
     <div class="col-md-4">
       <div class="card">
         <img src="{{ url_for('static', filename='img_folder/Wiggles.png') }}" class="card-img-top" alt="Wiggles">

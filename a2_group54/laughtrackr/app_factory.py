@@ -1,9 +1,10 @@
-#Flask App Creation for Website
+# Flask App Creation for Website
 from flask import Flask
 
 def create_app():
     app = Flask(__name__)
 
+    # Register Blueprints
     from .index import mainbp
     app.register_blueprint(mainbp)
 

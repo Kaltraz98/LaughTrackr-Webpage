@@ -2,22 +2,19 @@ from . import db
 from datetime import datetime
 from flask_login import UserMixin
 
-# Create User DB
+# User Model
 class User(db.Model, UserMixin):
-    __tablename__ = 'users' # table name
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True, nullable=False)
     emailid = db.Column(db.String(100), index=True, unique=True, nullable=False)
-	# encrypted password must be at least 255 chars long
-    password_hash = db.Column(db.String(255), nullable=False)
-    # relation to comments = Many to many 
+    password_hash = db.Column(db.String(255), nullable=False)  # Encrypted password
     comments = db.relationship('Comment', backref='user', cascade='all, delete-orphan')
 
-    # string print
     def __repr__(self):
-       return f"<User {self.name}>"
+        return f"<User {self.name}>"
 
-# Create Event DB
+# Event Model
 class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
@@ -25,45 +22,39 @@ class Event(db.Model):
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
     cost = db.Column(db.Float)
-    # Foriegn Keys
-    rating = db.relationship('Rating', backref='event')
     rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'))
-    comments = db.relationship('Comment', backref='event', lazy=True)
+    rating = db.relationship('Rating', backref='event')
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))
     venue = db.relationship('Venue', backref='events')
+    comments = db.relationship('Comment', backref='event', lazy=True)
     event_date = db.Column(db.DateTime, nullable=False)
     event_addinfo = db.Column(db.String(500), nullable=True)
     featured = db.Column(db.Boolean, default=False)
-    
-	# string print 
+
     def __repr__(self):
-        return f"<event {self.name} in {self.venue}>"
+        return f"<Event {self.name} in {self.venue}>"
 
-
+# Comment Model
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(400))
-    created_at = db.Column(db.DateTime, default=datetime.now())
-    # add the foreign keys
+    created_at = db.Column(db.DateTime, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
 
-    
+# Venue Model
 class Venue(db.Model):
     __tablename__ = 'venue'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200))
     seating_capacity = db.Column(db.Integer, nullable=False)
-    
 
     def to_dict(self):
-        h_dict = {
-            b.name: str(getattr(self, b.name)) for b in self.__table__.columns
-        }
-        return h_dict
+        return {column.name: str(getattr(self, column.name)) for column in self.__table__.columns}
 
+# Rating Model
 class Rating(db.Model):
     __tablename__ = 'rating'
     id = db.Column(db.Integer, primary_key=True)
@@ -71,4 +62,3 @@ class Rating(db.Model):
 
     def __repr__(self):
         return f"<Rating {self.id}: {self.label}>"
-   

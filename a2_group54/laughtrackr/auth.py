@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from .Userforms import LoginForm, RegisterForm
 
-# create a blueprint
-authbp = Blueprint('auth', __name__, url_prefix='/auth' )
+# Create blueprint
+authbp = Blueprint('auth', __name__, url_prefix='/auth')
 
+# Login route
 @authbp.route('/login', methods=['GET', 'POST'])
 def logged_in():
     loginForm = LoginForm()
@@ -13,6 +14,7 @@ def logged_in():
         return redirect(url_for('auth.login'))
     return render_template('LoginForm.html', form=loginForm, heading='Login')
 
+# Register route
 @authbp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
