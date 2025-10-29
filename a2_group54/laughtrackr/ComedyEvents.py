@@ -3,33 +3,35 @@ from .models import *
 from .eventforms import *
 from laughtrackr import db
 
+# Create blueprint
 eventsbp = Blueprint('events', __name__, url_prefix='/events')
 
+# Homepage carousel view
 @eventsbp.route('/homepage')
 def carousel():
     events = Event.query.filter(Event.id.in_([1, 2, 3])).all()
     return render_template('IndexPage.html', events=events)
 
-@eventsbp.route('/all')  
+# All events listing
+@eventsbp.route('/all')
 def all_events():
     events = Event.query.all()
     return render_template('AllEventsPage.html', events=events)
 
+# Event details view
 @eventsbp.route('/details/<int:id>', methods=['GET', 'POST'])
 def events(id):
     event = Event.query.get_or_404(id)
     return render_template('EventDetailsPage.html', event=event)
 
-@eventsbp.route('/featured')
-def featured():
-    return show_featured_events()
-
+# Event creation form
 @eventsbp.route('/create', methods=['GET', 'POST'])
 def create():
-    print('Method type: ', request.method)
+    print('Method type:', request.method)
     create_form = EventForm()
     create_form.rating.choices = [(r.id, r.label) for r in Rating.query.all()]
     create_form.venue.choices = [(v.id, v.name) for v in Venue.query.all()]
+
     if create_form.validate_on_submit():
         new_event = Event(
             name=create_form.name.data,
@@ -44,7 +46,9 @@ def create():
         db.session.commit()
         print('Successfully created new comedy event')
         return redirect(url_for('events.details', id=new_event.id))
+
     return render_template('EventcreationPage.html', form=create_form)
 
+# Utility function to fetch event by ID
 def get_event(id):
-  return Event.query.get(id)
+    return Event.query.get(id)

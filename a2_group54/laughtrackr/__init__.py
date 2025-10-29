@@ -6,11 +6,14 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    Bootstrap5(app)
     app.secret_key = 'somerandomvalue'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///comedydb.sqlite'
+
+    # Initialize extensions
+    Bootstrap5(app)
     db.init_app(app)
 
+    # Login Manager setup
     from flask_login import LoginManager, current_user
     from .models import User
 
@@ -26,11 +29,13 @@ def create_app():
     def inject_user():
         return dict(current_user=current_user)
 
-    # Blueprints
+    # Register Blueprints
     from . import index
     app.register_blueprint(index.mainbp)
+
     from . import ComedyEvents
     app.register_blueprint(ComedyEvents.eventsbp)
+
     from . import auth
     app.register_blueprint(auth.authbp)
 

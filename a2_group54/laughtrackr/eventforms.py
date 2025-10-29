@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, SelectField, DateTimeField
+from wtforms import TextAreaField, SubmitField, StringField, SelectField, DateTimeField
 from wtforms.validators import InputRequired
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
+# Allowed image file extensions
 ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}
 
 class EventForm(FlaskForm):
