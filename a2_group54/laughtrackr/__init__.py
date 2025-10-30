@@ -39,4 +39,7 @@ def create_app():
     from . import auth
     app.register_blueprint(auth.authbp)
 
+    from . import BookingHistory
+    app.register_blueprint(BookingHistory.bookingbp)
+
     return app

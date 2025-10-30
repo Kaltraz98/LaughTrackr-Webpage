@@ -106,21 +106,31 @@
 <div class="container text-center py-5">
   <div class="row" style="background-color: #ffbfbf">
     <h1><strong>Event Categories</strong></h1>
+
     <div class="col-md-4">
       <div class="card">
-        <img src="{{ url_for('static', filename='img_folder/Wiggles.png') }}" class="card-img-top" alt="Wiggles">
+        <a href="{{ url_for('events.all_events') }}">
+          <img src="{{ url_for('static', filename='img_folder/Wiggles.png') }}" class="card-img-top" alt="Wiggles">
+        </a>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="card">
-        <img src="{{ url_for('static', filename='img_folder/Mature Audience.png') }}" class="card-img-top" alt="Mature Audience">
+        <a href="{{ url_for('events.all_events') }}">
+          <img src="{{ url_for('static', filename='img_folder/Mature Audience.png') }}" class="card-img-top" alt="Mature Audience">
+        </a>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="card">
-        <img src="{{ url_for('static', filename='img_folder/Adult Humour.png') }}" class="card-img-top" alt="Adult Humour">
+        <a href="{{ url_for('events.all_events') }}">
+          <img src="{{ url_for('static', filename='img_folder/Adult Humour.png') }}" class="card-img-top" alt="Adult Humour">
+        </a>
       </div>
     </div>
+
   </div>
 </div>
 {% endblock %}

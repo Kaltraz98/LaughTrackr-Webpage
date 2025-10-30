@@ -40,9 +40,8 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('events.create') }}">All Events</a>
+              <a class="nav-link" href="{{ url_for('events.all_events') }}">All Events</a>              
               </li>
-
               <!-- Dropdown menu -->
               <li class="nav-item dropdown">
                 <a
@@ -71,7 +70,7 @@
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="{{ url_for('booking.showhistory', id=current_user.id) }}">
+                    <a class="dropdown-item" href="{{ url_for('booking.showhistory') }}">
                       Booking History
                     </a>
                   </li>

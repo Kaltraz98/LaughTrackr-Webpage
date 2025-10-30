@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField, StringField, SelectField, DateTimeField
 from wtforms.validators import InputRequired
 from flask_wtf.file import FileRequired, FileField, FileAllowed
+from flask_login import login_required
 
 # Allowed image file extensions
 ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}

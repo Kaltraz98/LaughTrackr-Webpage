@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from .models import *
 from .eventforms import *
 from laughtrackr import db
+from flask_login import login_required 
 
 # Create blueprint
 eventsbp = Blueprint('events', __name__, url_prefix='/events')
@@ -26,6 +27,7 @@ def events(id):
 
 # Event creation form
 @eventsbp.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     print('Method type:', request.method)
     create_form = EventForm()

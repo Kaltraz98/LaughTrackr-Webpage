@@ -14,10 +14,10 @@ def create_app():
     from .ComedyEvents import eventsbp
     app.register_blueprint(eventsbp)
 
-    from .login import loginbp
-    app.register_blueprint(loginbp)
-
     from .auth import authbp
     app.register_blueprint(authbp)
+
+    from . import auth
+    app.register_blueprint(auth.authbp)
 
     return app
