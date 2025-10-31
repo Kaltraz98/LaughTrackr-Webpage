@@ -1,24 +1,25 @@
+# Imports
 import os
 from flask import Flask, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap5
 from flask_login import LoginManager, current_user
 
-# Initialize extensions
+# SQL extensions
 db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    
+
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'devkey')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///comedydb.sqlite'
 
-    # Initialize extensions
+    # extensions
     Bootstrap5(app)
     db.init_app(app)
 
-    # Login manager setup
+    # Login manager 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.logged_in'
     login_manager.init_app(app)
@@ -33,7 +34,7 @@ def create_app():
     def inject_user():
         return dict(current_user=current_user)
 
-    # Register blueprints
+    # blueprints
     from .index import mainbp
     from .ComedyEvents import eventsbp
     from .auth import authbp

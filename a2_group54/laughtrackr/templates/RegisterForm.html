@@ -2,55 +2,59 @@
 {% from 'bootstrap5/form.html' import render_form %}
 
 {% block content %}
-<div class="text-white">
-  <div class="container mt-5">
+ <!-- Container for content -->
+  <div class="text-white">
+    <div class="container mt-5">
 
-    <!-- Page Heading -->
-    <div class="row justify-content-center">
-      <div class="col-md-8 text-center">
-        <h1 class="display-5">{{ heading }}</h1>
-        <p class="lead">Create your LaughTrackr account below</p>
+      <!-- Page Heading -->
+      <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+          <h1 class="display-5">{{ heading }}</h1>
+          <p class="lead">Create your LaughTrackr account below</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="row mt-3 mb-3">
-          <div class="col-md-8 offset-md-2">
-            {% for message in messages %}
-              <div class="alert alert-info">{{ message }}</div>
-            {% endfor %}
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="row mt-3 mb-3">
+            <div class="col-md-8 offset-md-2">
+              {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Registration Form -->
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="mb-4">
+            <h4 class="text-start">To register your LaughTrackr account, please provide:</h4>
+            <ul>
+              <li><strong>User Name</strong> – your display name</li>
+              <li><strong>Email Address</strong> – a valid email we can contact you at</li>
+              <li><strong>Password</strong> – choose a secure password</li>
+              <li><strong>Confirm Password</strong> – re-enter your password to confirm</li>
+            </ul>
+          </div>
+          {{ render_form(form) }}
+        </div>
+      </div>
+
+      <!-- Login Redirect -->
+      {% if heading|lower == 'login' %}
+        <div class="row justify-content-center mt-3">
+          <div class="col-md-6 text-center">
+            <p>
+              New user?
+              <a href="{{ url_for('auth.register') }}">Click here to register</a>.
+            </p>
           </div>
         </div>
       {% endif %}
-    {% endwith %}
 
-    <!-- Registration Form -->
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="mb-4">
-          <h4 class="text-start">To register your LaughTrackr account, please provide:</h4>
-          <ul>
-            <li><strong>User Name</strong> – your display name</li>
-            <li><strong>Email Address</strong> – a valid email we can contact you at</li>
-            <li><strong>Password</strong> – choose a secure password</li>
-            <li><strong>Confirm Password</strong> – re-enter your password to confirm</li>
-          </ul>
-        </div>
-        {{ render_form(form) }}
-      </div>
     </div>
-
-    <!-- Login Redirect -->
-    {% if heading|lower == 'login' %}
-      <div class="row justify-content-center mt-3">
-        <div class="col-md-6 text-center">
-          <p>New user? <a href="{{ url_for('auth.register') }}">Click here to register</a>.</p>
-        </div>
-      </div>
-    {% endif %}
-
   </div>
-</div>
 {% endblock %}

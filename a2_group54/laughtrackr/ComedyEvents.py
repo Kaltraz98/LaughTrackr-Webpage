@@ -1,3 +1,4 @@
+# Imports
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from laughtrackr import db
@@ -70,7 +71,6 @@ def create():
     create_form.venue.choices = [(v.id, v.name) for v in Venue.query.all()]
 
     if create_form.validate_on_submit():
-        # ✅ Your new_event block goes right here
         new_event = Event(
             name=create_form.name.data,
             description=create_form.description.data,
@@ -79,9 +79,8 @@ def create():
             rating_id=create_form.rating.data,
             venue_id=create_form.venue.data,
             event_date=create_form.event_date.data,
-            user_id=current_user.id  # ✅ This links the event to the logged-in user
+            user_id=current_user.id  # Link to creator
         )
-
         db.session.add(new_event)
         db.session.commit()
         flash('Successfully created new comedy event!', 'success')
@@ -89,7 +88,7 @@ def create():
 
     return render_template('EventcreationPage.html', form=create_form)
 
-# Utility function to fetch event by ID
+# Utility function - get ID
 def get_event(id):
     return Event.query.get(id)
 

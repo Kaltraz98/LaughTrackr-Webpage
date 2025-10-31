@@ -1,10 +1,11 @@
+# Imports
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from .models import Booking, Event
 from .Userforms import BookingForm
 from . import db
 
-# Define the blueprint once
+# Define blueprint
 bookingbp = Blueprint('booking', __name__, url_prefix='/booking')
 
 # Booking history route
@@ -32,10 +33,10 @@ def book_event(event_id):
 
         # Proceed with booking
         booking = Booking(
-        user_id=current_user.id,
-        event_id=event.id,
-        quantity=int(form.quantity.data)
-      )
+            user_id=current_user.id,
+            event_id=event.id,
+            quantity=int(form.quantity.data)
+        )
         db.session.add(booking)
         db.session.commit()
 
