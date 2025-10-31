@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from .Userforms import LoginForm, RegisterForm
 from .models import User
-from . import db  
+from . import db
 
 # Blueprint configuration
 authbp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -28,6 +28,11 @@ def logged_in():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        existing_user = User.query.filter_by(emailid=form.email.data).first()
+        if existing_user:
+            flash('Email already registered. Please log in or use a different email.', 'warning')
+            return redirect(url_for('auth.register'))
+
         hashed_password = generate_password_hash(form.password.data)
         new_user = User(
             name=form.name.data,
@@ -38,6 +43,7 @@ def register():
         db.session.commit()
         flash('Account created successfully!', 'success')
         return redirect(url_for('auth.logged_in'))
+
     return render_template('RegisterForm.html', form=form, heading='Register')
 
 # Logout route

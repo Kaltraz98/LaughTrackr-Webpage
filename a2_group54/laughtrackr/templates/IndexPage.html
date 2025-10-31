@@ -10,7 +10,7 @@
     <div class="carousel-inner">
       {% for event in events %}
       <div class="carousel-item {% if event.id == 1 %}active{% endif %}">
-        <a href="{{ url_for('events.events', id=event.id) }}">
+        <a href="{{ url_for('events.event_details', id=event.id) }}">
           <img src="{{ url_for('static', filename=event.image) }}" class="d-block w-100" alt="{{ event.name }}">
         </a>
         <div class="carousel-caption d-none d-md-block">
@@ -40,58 +40,94 @@
     <div class="container py-5">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
 
-        <!-- Event Card -->
+        <!-- Jimmy Fallon -->
         <div class="col">
           <div class="card shadow-sm">
-            <a href="{{ url_for('events.events', id=4) }}">
-              <img src="{{ url_for('static', filename='img_folder/fallon.jpg') }}" class="card-img-top fixed-size" alt="Jimmy Fallon">
+            <a href="{{ url_for('events.event_details', id=fallon.id) }}">
+              <img src="{{ url_for('static', filename=fallon.image) }}" class="card-img-top fixed-size" alt="{{ fallon.name }}">
             </a>
             <div class="card-body">
-              <h5 class="card-title">Jimmy Fallon</h5>
-              <p class="card-text">HE IS SO FUNNY AHAHAHA</p>
+              <h5 class="card-title">{{ fallon.name }}</h5>
+              <p class="card-text">{{ fallon.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('events.events', id=4) }}">
-                  <button class="btn btn-sm btn-outline-primary availible">Available</button>
+                <a href="{{ url_for('events.event_details', id=fallon.id) }}">
+                  <button class="btn btn-sm btn-outline-primary {% if fallon.remaining_seats <= 0 %}sold_out{% else %}availible{% endif %}">
+                    {% if fallon.remaining_seats <= 0 %}
+                      Sold Out
+                    {% else %}
+                      Available
+                    {% endif %}
+                  </button>
                 </a>
-                <small class="text-muted">2 days ago</small>
+                <small class="text-muted">
+                  {% if fallon.remaining_seats <= 0 %}
+                    No seats left
+                  {% else %}
+                    {{ fallon.remaining_seats }} seats left
+                  {% endif %}
+                </small>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Sold Out Event -->
+        <!-- Jimmy Beast -->
         <div class="col">
           <div class="card shadow-sm">
-            <a href="{{ url_for('events.events', id=5) }}">
-              <img src="{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}" class="card-img-top fixed-size" alt="Jimmy Beast">
+            <a href="{{ url_for('events.event_details', id=beast.id) }}">
+              <img src="{{ url_for('static', filename=beast.image) }}" class="card-img-top fixed-size" alt="{{ beast.name }}">
             </a>
             <div class="card-body">
-              <h5 class="card-title">Jimmy Beast</h5>
-              <p class="card-text">He is SOOOOO FUNNY!</p>
+              <h5 class="card-title">{{ beast.name }}</h5>
+              <p class="card-text">{{ beast.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('events.events', id=5) }}">
-                  <button class="btn btn-sm btn-outline-primary sold_out">Sold Out</button>
+                <a href="{{ url_for('events.event_details', id=beast.id) }}">
+                  <button class="btn btn-sm btn-outline-primary {% if beast.remaining_seats <= 0 %}sold_out{% else %}availible{% endif %}">
+                    {% if beast.remaining_seats <= 0 %}
+                      Sold Out
+                    {% else %}
+                      Available
+                    {% endif %}
+                  </button>
                 </a>
-                <small class="text-muted">5 mins ago</small>
+                <small class="text-muted">
+                  {% if beast.remaining_seats <= 0 %}
+                    No seats left
+                  {% else %}
+                    {{ beast.remaining_seats }} seats left
+                  {% endif %}
+                </small>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Available Event -->
+        <!-- Jimmy Carr -->
         <div class="col">
           <div class="card shadow-sm">
-            <a href="{{ url_for('events.events', id=6) }}">
-              <img src="{{ url_for('static', filename='img_folder/JimmyCarr.jpg') }}" class="card-img-top fixed-size" alt="Jimmy Carr">
+            <a href="{{ url_for('events.event_details', id=carr.id) }}">
+              <img src="{{ url_for('static', filename=carr.image) }}" class="card-img-top fixed-size" alt="{{ carr.name }}">
             </a>
             <div class="card-body">
-              <h5 class="card-title">Jimmy Carr</h5>
-              <p class="card-text">He is Funny, but not as funny as Jimmy Beast</p>
+              <h5 class="card-title">{{ carr.name }}</h5>
+              <p class="card-text">{{ carr.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('events.events', id=6) }}">
-                  <button class="btn btn-sm btn-outline-primary availible">Available</button>
+                <a href="{{ url_for('events.event_details', id=carr.id) }}">
+                  <button class="btn btn-sm btn-outline-primary {% if carr.remaining_seats <= 0 %}sold_out{% else %}availible{% endif %}">
+                    {% if carr.remaining_seats <= 0 %}
+                      Sold Out
+                    {% else %}
+                      Available
+                    {% endif %}
+                  </button>
                 </a>
-                <small class="text-muted">20 days ago</small>
+                <small class="text-muted">
+                  {% if carr.remaining_seats <= 0 %}
+                    No seats left
+                  {% else %}
+                    {{ carr.remaining_seats }} seats left
+                  {% endif %}
+                </small>
               </div>
             </div>
           </div>

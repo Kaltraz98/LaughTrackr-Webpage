@@ -28,7 +28,7 @@
                 <li><strong>Cost:</strong> ${{ event.cost }}</li>
                 <li><strong>Rating:</strong> {{ event.rating.label }}</li>
               </ul>
-              <a href="{{ url_for('events.events', id=event.id) }}" class="btn btn-outline-primary mt-2">View Details</a>
+              <a href="{{ url_for('events.event_details', id=event.id) }}" class="btn btn-outline-primary mt-2">View Details</a>
             </div>
           </div>
         </div>

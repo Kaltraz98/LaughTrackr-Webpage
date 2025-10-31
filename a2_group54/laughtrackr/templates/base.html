@@ -65,8 +65,8 @@
                   </li>
                   {% if current_user.is_authenticated %}
                   <li>
-                    <a class="dropdown-item" href="{{ url_for('events.events', id=current_user.id) }}">
-                      Event Details
+                    <a class="dropdown-item" href="{{ url_for('events.my_events') }}">
+                      My Events
                     </a>
                   </li>
                   <li>
