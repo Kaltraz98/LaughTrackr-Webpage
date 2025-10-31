@@ -4,20 +4,25 @@
 {% endblock %}
 
 {% block content %}
+
 <!-- Scrolling Event Images Carousel -->
 <div class="container mt-5">
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       {% for event in events %}
-      <div class="carousel-item {% if event.id == 1 %}active{% endif %}">
-        <a href="{{ url_for('events.event_details', id=event.id) }}">
-          <img src="{{ url_for('static', filename=event.image) }}" class="d-block w-100" alt="{{ event.name }}">
-        </a>
-        <div class="carousel-caption d-none d-md-block">
-          <h5>{{ event.name }}</h5>
-          <p>{{ event.description }}</p>
+        <div class="carousel-item {% if event.id == 1 %}active{% endif %}">
+          <a href="{{ url_for('events.event_details', id=event.id) }}">
+            <img
+              src="{{ url_for('static', filename=event.image) }}"
+              class="d-block w-100"
+              alt="{{ event.name }}"
+            >
+          </a>
+          <div class="carousel-caption d-none d-md-block">
+            <h5>{{ event.name }}</h5>
+            <p>{{ event.description }}</p>
+          </div>
         </div>
-      </div>
       {% endfor %}
     </div>
 
@@ -40,98 +45,41 @@
     <div class="container py-5">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
 
-        <!-- Jimmy Fallon -->
-        <div class="col">
-          <div class="card shadow-sm">
-            <a href="{{ url_for('events.event_details', id=fallon.id) }}">
-              <img src="{{ url_for('static', filename=fallon.image) }}" class="card-img-top fixed-size" alt="{{ fallon.name }}">
-            </a>
-            <div class="card-body">
-              <h5 class="card-title">{{ fallon.name }}</h5>
-              <p class="card-text">{{ fallon.description }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('events.event_details', id=fallon.id) }}">
-                  <button class="btn btn-sm btn-outline-primary {% if fallon.remaining_seats <= 0 %}sold_out{% else %}availible{% endif %}">
-                    {% if fallon.remaining_seats <= 0 %}
-                      Sold Out
+        {% for performer in [fallon, beast, carr] %}
+          <div class="col">
+            <div class="card shadow-sm">
+              <a href="{{ url_for('events.event_details', id=performer.id) }}">
+                <img
+                  src="{{ url_for('static', filename=performer.image) }}"
+                  class="card-img-top fixed-size"
+                  alt="{{ performer.name }}"
+                >
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">{{ performer.name }}</h5>
+                <p class="card-text">{{ performer.description }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <a href="{{ url_for('events.event_details', id=performer.id) }}">
+                    <button class="btn btn-sm btn-outline-primary {% if performer.remaining_seats <= 0 %}sold_out{% else %}availible{% endif %}">
+                      {% if performer.remaining_seats <= 0 %}
+                        Sold Out
+                      {% else %}
+                        Available
+                      {% endif %}
+                    </button>
+                  </a>
+                  <small class="text-muted">
+                    {% if performer.remaining_seats <= 0 %}
+                      No seats left
                     {% else %}
-                      Available
+                      {{ performer.remaining_seats }} seats left
                     {% endif %}
-                  </button>
-                </a>
-                <small class="text-muted">
-                  {% if fallon.remaining_seats <= 0 %}
-                    No seats left
-                  {% else %}
-                    {{ fallon.remaining_seats }} seats left
-                  {% endif %}
-                </small>
+                  </small>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Jimmy Beast -->
-        <div class="col">
-          <div class="card shadow-sm">
-            <a href="{{ url_for('events.event_details', id=beast.id) }}">
-              <img src="{{ url_for('static', filename=beast.image) }}" class="card-img-top fixed-size" alt="{{ beast.name }}">
-            </a>
-            <div class="card-body">
-              <h5 class="card-title">{{ beast.name }}</h5>
-              <p class="card-text">{{ beast.description }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('events.event_details', id=beast.id) }}">
-                  <button class="btn btn-sm btn-outline-primary {% if beast.remaining_seats <= 0 %}sold_out{% else %}availible{% endif %}">
-                    {% if beast.remaining_seats <= 0 %}
-                      Sold Out
-                    {% else %}
-                      Available
-                    {% endif %}
-                  </button>
-                </a>
-                <small class="text-muted">
-                  {% if beast.remaining_seats <= 0 %}
-                    No seats left
-                  {% else %}
-                    {{ beast.remaining_seats }} seats left
-                  {% endif %}
-                </small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Jimmy Carr -->
-        <div class="col">
-          <div class="card shadow-sm">
-            <a href="{{ url_for('events.event_details', id=carr.id) }}">
-              <img src="{{ url_for('static', filename=carr.image) }}" class="card-img-top fixed-size" alt="{{ carr.name }}">
-            </a>
-            <div class="card-body">
-              <h5 class="card-title">{{ carr.name }}</h5>
-              <p class="card-text">{{ carr.description }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ url_for('events.event_details', id=carr.id) }}">
-                  <button class="btn btn-sm btn-outline-primary {% if carr.remaining_seats <= 0 %}sold_out{% else %}availible{% endif %}">
-                    {% if carr.remaining_seats <= 0 %}
-                      Sold Out
-                    {% else %}
-                      Available
-                    {% endif %}
-                  </button>
-                </a>
-                <small class="text-muted">
-                  {% if carr.remaining_seats <= 0 %}
-                    No seats left
-                  {% else %}
-                    {{ carr.remaining_seats }} seats left
-                  {% endif %}
-                </small>
-              </div>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
 
       </div>
     </div>
@@ -146,7 +94,11 @@
     <div class="col-md-4">
       <div class="card">
         <a href="{{ url_for('events.all_events') }}">
-          <img src="{{ url_for('static', filename='img_folder/Wiggles.png') }}" class="card-img-top" alt="Wiggles">
+          <img
+            src="{{ url_for('static', filename='img_folder/Wiggles.png') }}"
+            class="card-img-top"
+            alt="Wiggles"
+          >
         </a>
       </div>
     </div>
@@ -154,7 +106,11 @@
     <div class="col-md-4">
       <div class="card">
         <a href="{{ url_for('events.all_events') }}">
-          <img src="{{ url_for('static', filename='img_folder/Mature Audience.png') }}" class="card-img-top" alt="Mature Audience">
+          <img
+            src="{{ url_for('static', filename='img_folder/Mature Audience.png') }}"
+            class="card-img-top"
+            alt="Mature Audience"
+          >
         </a>
       </div>
     </div>
@@ -162,11 +118,16 @@
     <div class="col-md-4">
       <div class="card">
         <a href="{{ url_for('events.all_events') }}">
-          <img src="{{ url_for('static', filename='img_folder/Adult Humour.png') }}" class="card-img-top" alt="Adult Humour">
+          <img
+            src="{{ url_for('static', filename='img_folder/Adult Humour.png') }}"
+            class="card-img-top"
+            alt="Adult Humour"
+          >
         </a>
       </div>
     </div>
 
   </div>
 </div>
+
 {% endblock %}

@@ -1,40 +1,49 @@
+# Imports
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
-from wtforms.validators import InputRequired, Email, EqualTo
-from flask_wtf.file import FileRequired, FileField, FileAllowed
-from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField
-from wtforms.validators import InputRequired, NumberRange
-from wtforms import SelectField
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms import (
+    StringField,
+    PasswordField,
+    TextAreaField,
+    SubmitField,
+    IntegerField,
+    SelectField
+)
+from wtforms.validators import InputRequired, Email, EqualTo, NumberRange
 
+# Allowed image file extensions
 ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}
-    
-#User login
+
+# User login form
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Email()])
     password = PasswordField('Password', validators=[InputRequired()])
     submit = SubmitField('Login')
 
-#User register
+# User registration form
 class RegisterForm(FlaskForm):
     name = StringField('Name', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(), Email()])
     password = PasswordField('Password', validators=[InputRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[
-        InputRequired(),
-        EqualTo('password', message='Passwords must match')
-    ])
+    confirm_password = PasswordField(
+        'Confirm Password',
+        validators=[
+            InputRequired(),
+            EqualTo('password', message='Passwords must match')
+        ]
+    )
     submit = SubmitField('Register')
 
-#User comment
+# User comment form
 class CommentForm(FlaskForm):
     text = TextAreaField('Leave a comment', validators=[InputRequired()])
     submit = SubmitField('Post')
 
+# Ticket booking form
 class BookingForm(FlaskForm):
-    quantity = IntegerField('Number of Tickets', validators=[InputRequired(), NumberRange(min=1, max=6)])
-    submit = SubmitField('Purchase')
-
-class BookingForm(FlaskForm):
-    quantity = SelectField('Number of Tickets', choices=[(str(i), str(i)) for i in range(1, 7)], validators=[InputRequired()])
+    quantity = SelectField(
+        'Number of Tickets',
+        choices=[(str(i), str(i)) for i in range(1, 7)],
+        validators=[InputRequired()]
+    )
     submit = SubmitField('Purchase')

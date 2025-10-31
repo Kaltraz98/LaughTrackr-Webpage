@@ -1,4 +1,4 @@
-# Flask App Creation for Website
+# Flask import
 from flask import Flask
 
 def create_app():

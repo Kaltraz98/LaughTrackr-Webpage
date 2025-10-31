@@ -2,15 +2,21 @@
 {% from 'bootstrap5/form.html' import render_form %}
 
 {% block content %}
+ <!-- Container for content -->
   <div class="container mt-5 pt-5">
     <div class="row">
 
       <!-- Booking Form -->
       <div class="col-md-8 mb-4">
         <h2 class="text-center text-light mb-4">Event Booking Form</h2>
-        <form method="POST" enctype="multipart/form-data" action="{{ url_for('events.create') }}">
-          {{ form.hidden_tag() }}
 
+        <form
+          method="POST"
+          enctype="multipart/form-data"
+          action="{{ url_for('events.create') }}"
+        >
+          {{ form.hidden_tag() }}
+           <!-- Input for form -->
           <div class="mb-3">
             {{ form.name.label(class="form-label text-light") }}
             {{ form.name(class="form-control", placeholder="Enter your name") }}
@@ -46,18 +52,18 @@
             {{ form.image(class="form-control") }}
           </div>
 
-          <div class="mb-3">
-            {{ form.submit(class="btn btn-primary") }}
+          <div class="mb-3 text-center">
+            {{ form.submit(class="btn btn-primary px-4") }}
           </div>
         </form>
       </div>
 
-      <!-- Testimonial -->
+      <!-- Testimonial container -->
       <div class="col-md-4 text-center pt-4">
-        <img 
-          src="{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}" 
-          alt="Promo" 
-          class="img-fluid rounded mb-3 border_box" 
+        <img
+          src="{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}"
+          alt="Promo"
+          class="img-fluid rounded mb-3 border_box"
         />
         <div class="text_pill text-light">
           <p><strong>LaughTrackr</strong> helped me reach new audiences from around the world!</p>

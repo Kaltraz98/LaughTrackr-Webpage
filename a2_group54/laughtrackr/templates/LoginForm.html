@@ -2,6 +2,7 @@
 {% from 'bootstrap5/form.html' import render_form %}
 
 {% block content %}
+ <!-- Container for content -->
   <div class="container col-md-6 mt-5 pt-5">
     <h2 class="text-white mb-4">Login Form</h2>
 
@@ -11,7 +12,12 @@
         {% for category, message in messages %}
           <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
           </div>
         {% endfor %}
       {% endif %}
@@ -40,7 +46,9 @@
       </div>
 
       <!-- Submit Button -->
-      {{ form.submit(class="btn btn-default text-white") }}
+      <div class="text-center">
+        {{ form.submit(class="btn btn-default text-white px-4") }}
+      </div>
     </form>
   </div>
 {% endblock %}

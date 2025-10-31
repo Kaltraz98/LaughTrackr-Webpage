@@ -1,3 +1,4 @@
+# Imports
 from . import db
 from datetime import datetime
 from flask_login import UserMixin
@@ -5,6 +6,7 @@ from flask_login import UserMixin
 # User Model
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True, nullable=False)
     emailid = db.Column(db.String(100), index=True, unique=True, nullable=False)
@@ -20,6 +22,7 @@ class User(db.Model, UserMixin):
 # Event Model
 class Event(db.Model):
     __tablename__ = 'events'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(200), nullable=False)
@@ -46,6 +49,7 @@ class Event(db.Model):
 # Comment Model
 class Comment(db.Model):
     __tablename__ = 'comments'
+
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(400), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
@@ -59,6 +63,7 @@ class Comment(db.Model):
 # Booking Model
 class Booking(db.Model):
     __tablename__ = 'bookings'
+
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)
@@ -72,6 +77,7 @@ class Booking(db.Model):
 # Venue Model
 class Venue(db.Model):
     __tablename__ = 'venue'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200))
@@ -83,6 +89,7 @@ class Venue(db.Model):
 # Rating Model
 class Rating(db.Model):
     __tablename__ = 'rating'
+
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(50), nullable=False)
 
