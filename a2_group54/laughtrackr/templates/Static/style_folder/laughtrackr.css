@@ -71,3 +71,15 @@ text-align: left;
 .view_ticket:hover{
     background-color: rgba(96, 136, 211, 0.514) !important;
 }
+
+.sold_out {
+  background-color: #ccc;
+  color: #666;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.availible {
+  background-color: #007bff;
+  color: white;
+}

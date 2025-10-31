@@ -26,16 +26,16 @@ def book_event(event_id):
         total_booked = sum(b.quantity for b in Booking.query.filter_by(event_id=event.id).all())
         remaining_seats = event.venue.seating_capacity - total_booked
 
-        if form.quantity.data > remaining_seats:
+        if int(form.quantity.data) > remaining_seats:
             flash(f'Only {remaining_seats} tickets left for this event.', 'danger')
             return render_template('BookEventPage.html', event=event, form=form)
 
         # Proceed with booking
         booking = Booking(
-            user_id=current_user.id,
-            event_id=event.id,
-            quantity=form.quantity.data
-        )
+        user_id=current_user.id,
+        event_id=event.id,
+        quantity=int(form.quantity.data)
+      )
         db.session.add(booking)
         db.session.commit()
 

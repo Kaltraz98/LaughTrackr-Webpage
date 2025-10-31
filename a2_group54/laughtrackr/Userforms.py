@@ -5,7 +5,7 @@ from flask_wtf.file import FileRequired, FileField, FileAllowed
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, SubmitField
 from wtforms.validators import InputRequired, NumberRange
-
+from wtforms import SelectField
 
 ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}
     
@@ -28,9 +28,13 @@ class RegisterForm(FlaskForm):
 
 #User comment
 class CommentForm(FlaskForm):
-  text = TextAreaField('Comment', [InputRequired()])
-  submit = SubmitField('Create')
+    text = TextAreaField('Leave a comment', validators=[InputRequired()])
+    submit = SubmitField('Post')
 
 class BookingForm(FlaskForm):
-    quantity = IntegerField('Number of Tickets', validators=[InputRequired(), NumberRange(min=1, max=10)])
-    submit = SubmitField('Book Now')
+    quantity = IntegerField('Number of Tickets', validators=[InputRequired(), NumberRange(min=1, max=6)])
+    submit = SubmitField('Purchase')
+
+class BookingForm(FlaskForm):
+    quantity = SelectField('Number of Tickets', choices=[(str(i), str(i)) for i in range(1, 7)], validators=[InputRequired()])
+    submit = SubmitField('Purchase')
