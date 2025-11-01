@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- Container for content -->
+  <div class="container mt-5 pt-4">
+    <h2 class="text-white mb-4">Your Booking History</h2>
+
+    {% if bookings %}
+      <div class="row">
+        {% for booking in bookings %}
+         <!-- List bookings -->
+          <div class="col-md-6 mb-4">
+            <div class="card bg-dark text-white">
+              <img
+                src="{{ url_for('static', filename=booking.event.image) }}"
+                class="card-img-top"
+                alt="{{ booking.event.name }}"
+              >
+              <div class="card-body">
+                <h5 class="card-title">{{ booking.event.name }}</h5>
+                <p class="card-text">{{ booking.event.description }}</p>
+                <p class="card-text">
+                  <strong>Date:</strong>
+                  {{ booking.event.event_date.strftime('%d %B %Y') }}
+                </p>
+                <p class="card-text">
+                  <strong>Venue:</strong>
+                  {{ booking.event.venue.name }}
+                </p>
+                <p class="card-text">
+                  <strong>Cost:</strong>
+                  ${{ booking.event.cost }}
+                </p>
+                <p class="card-text">
+                  <strong>Tickets:</strong>
+                  {{ booking.quantity }}
+                </p>
+                <p class="card-text">
+                  <small class="text-muted">
+                    Booked on {{ booking.booking_date.strftime('%d %B %Y') }}
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+     <!-- If no events -->
+      <div class="alert alert-info">
+        You haven’t booked any events yet.
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

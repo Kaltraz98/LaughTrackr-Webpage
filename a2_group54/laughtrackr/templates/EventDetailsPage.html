@@ -1,218 +1,170 @@
 {% extends 'base.html' %}
 
-{% from 'bootstrap5/form.html' import render_form %}
-
 {% block content %}
-  
-  <main class="container mt-5 pt-5">
-   
-    <!-- Event Image -->
-    <div class="row mb-4">
-      {% if event.image %}
-      <img src="{{ url_for('static', filename=event.image) }}" class="img-fluid" alt="{{ event.name }} Banner">
-      {% else %}
-    <p class="text-light">No image available for this event.</p>
+ <!-- Container for content -->
+<main class="container mt-5 pt-5">
+
+  <!-- Event Image -->
+  <div class="row mb-4">
+    {% if event.image %}
+      <img
+        src="{{ url_for('static', filename=event.image) }}"
+        class="img-fluid"
+        alt="{{ event.name }} Banner"
+      >
+    {% else %}
+      <p class="text-light">No image available for this event.</p>
     {% endif %}
-
-    </div>
-
-    <div class="row">
-      <!-- Event Description with Accordion (Sourced from Bootstrap)-->
-      <div class="col-md-6">
-        <div class="text_pill p-3" style="border-radius: 5%; background-color: white;">
-          <h2><strong>{{ event.name }}</strong></h2>
-          <p>{{ event.description }}
-          </p>
-          <div class="accordion accordion-flush" id="eventAccordion">
-            <!-- Event Details -->
-            <div class="accordion-item">
-  <h2 class="accordion-header" id="headingOne">
-    <button class="accordion-button collapsed" type="button"
-            data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-            aria-expanded="false" aria-controls="flush-collapseOne">
-      Event Details
-    </button>
-  </h2>
-  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
-    <div class="accordion-body">
-      <p>Date: {{ event.event_date.strftime('%B %d, %Y') }}</p>
-      <p>Start Time: {{ event.event_date.strftime('%I:%M%p') }}</p>
-      <p>Venue: {{ event.venue.name }}</p>
-      <p>Location: {{ event.venue.address }}</p>
-      <p>Rating: {{ event.rating.label }}</p>
-    </div>
   </div>
-</div>
 
+  <!-- Two-column layout -->
+  <div class="row">
+    <!-- Left Column: Event Description -->
+    <div class="col-md-6">
+      <div class="text_pill p-3 bg rounded" style="background-color: #ffbfbf">
+        <h2><strong>{{ event.name }}</strong></h2>
+        <p>{{ event.description }}</p>
 
-            <!-- Additional Info -->
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
-                        aria-expanded="false" aria-controls="flush-collapseThree">
-                  Additional Information
-                </button>
-              </h2>
-              <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
-                <div class="accordion-body">
-                 <p> {{event.event_addinfo }} </p>
-                </div>
+        <div class="accordion accordion-flush" id="eventAccordion">
+          <!-- Event Details -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+              >
+                Event Details
+              </button>
+            </h2>
+            <div
+              id="flush-collapseOne"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingOne"
+            >
+              <div class="accordion-body">
+                <p>Date: {{ event.event_date.strftime('%B %d, %Y') }}</p>
+                <p>Start Time: {{ event.event_date.strftime('%I:%M %p') }}</p>
+                <p>Venue: {{ event.venue.name }}</p>
+                <p>Location: {{ event.venue.address }}</p>
+                <p>Rating: {{ event.rating.label }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Info -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseThree"
+                aria-expanded="false"
+                aria-controls="flush-collapseThree"
+              >
+                Additional Information
+              </button>
+            </h2>
+            <div
+              id="flush-collapseThree"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingThree"
+            >
+              <div class="accordion-body">
+                <p>{{ event.event_addinfo }}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Ticket Purchase Form -->
-      <div class="col-md-6">
-        <div class="text_pill p-3" style="border-radius: 5%; background-color: white;"">
-          <!-- Number of Tickets slsection options 1to6-->
+    <!-- Right Column: Ticket Purchase Form -->
+    <div class="col-md-6">
+      <div class="text_pill p-3 bg rounded" style="background-color: #ffbfbf">
+        <form
+          method="POST"
+          action="{{ url_for('booking.book_event', event_id=event.id) }}"
+          class="row g-3"
+        >
+          {{ form.hidden_tag() }}
+
+          <!-- Ticket Quantity -->
           <div class="mb-3">
-            <label for="validation0" class="form-label">Number of Tickets</label>
-            <select class="form-select is-valid" id="validation0" required>
-              <option selected disabled value="">Choose...</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-            </select>
+            {{ form.quantity.label(class="form-label") }}
+            {{ form.quantity(class="form-select is-valid", id="validation0") }}
             <div class="valid-feedback">Tickets Available!</div>
           </div>
 
-          <!-- Personal Details Form free fields-->
-          <form class="row g-3">
-            <div class="col-md-6" style="background-color: white;">
-              <label for="validation1" class="form-label">First name</label>
-              <input type="text" class="form-control is-valid" id="validation1" required>
-              <div class="valid-feedback">Looks good!</div>
-            </div>
-
-            <div class="col-md-5">
-              <label for="validation2" class="form-label">Last name</label>
-              <input type="text" class="form-control is-valid" id="validation2" required>
-              <div class="valid-feedback">Looks good!</div>
-            </div>
-
-            <div class="col-md-8">
-              <label for="validation3" class="form-label">Email</label>
-              <input type="text" class="form-control is-invalid" id="validation3" required>
-              <div class="invalid-feedback">Please provide a valid email address.</div>
-            </div>
-
-            <div class="col-md-6">
-              <label for="city" class="form-label">City</label>
-              <input type="text" class="form-control is-invalid" id="city" required>
-              <div class="invalid-feedback">Please provide a valid city.</div>
-            </div>
-           <!-- Select a state using dropdown menu options -->
-            <div class="col-md-3">
-              <label for="validation4" class="form-label">State</label>
-              <select class="form-select is-invalid" id="validation4" required>
-                <option selected disabled value="">Choose...</option>
-                <option>QLD</option>
-                <option>NSW</option>
-                <option>VIC</option>
-                <option>WA</option>
-                <option>NT</option>
-                <option>TAS</option>
-              </select>
-              <div class="invalid-feedback">Please select a valid state.</div>
-            </div>
-            <!-- Postcode free field-->
-            <div class="col-md-3">
-              <label for="validation5" class="form-label">Post Code</label>
-              <input type="text" class="form-control is-invalid" id="validation5" aria-describedby="validation5Feedback" required>
-              <div id="validation5Feedback" class="invalid-feedback">
-                Please provide a valid postcode.
-              </div>
-            </div>
-
-            <!-- Terms and Conditions checkbox to agree-->
-            <div class="col-12">
-              <div class="form-check">
-                <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" aria-describedby="invalidCheck3Feedback" required>
-                <label class="form-check-label" for="invalidCheck3">
-                  Agree to the terms and conditions.
-                </label>
-                <div id="invalidCheck3Feedback" class="invalid-feedback"></div>
-              </div>
-            </div>
-            </form>
-
-          <!-- Purchase Button and Total amount label -->
+          <!-- Purchase Button and Total -->
           <div class="row align-items-center my-4">
             <div class="col">
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Purchase
-              </button>
+              {{ form.submit(class="btn btn-primary", aria_label="Purchase tickets") }}
             </div>
             <div class="col">
-              <div class="mb-3" style="border: 1px solid black; border-radius: 50rem; background-color: white;">
+              <div class="mb-3 border rounded-pill bg-white">
                 <label id="TotalCost" class="form-label px-3">Total:</label>
               </div>
             </div>
           </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-          <!-- Payment Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Credit Card Information</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <!-- Card details free fields-->
-                <div class="modal-body">
-                  <div class="mb-3">
-                    <label for="validationCard" class="form-label">Card Number</label>
-                    <input type="text" class="form-control is-valid" id="validationCard" required>
-                    <div class="valid-feedback">Looks good!</div>
-                  </div>
+  <!-- Ticket price change -->
+  <script>
+    const dropdown = document.getElementById('validation0');
+    const label = document.getElementById('TotalCost');
+    const ticketCost = parseFloat("{{ event.cost | float }}");
 
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="validationCVV" class="form-label">CVV</label>
-                      <input type="text" class="form-control is-valid" id="validationCVV" required>
-                      <div class="valid-feedback">Looks good!</div>
-                    </div>
+    dropdown.addEventListener('change', () => {
+      const value = parseInt(dropdown.value);
+      label.textContent = !isNaN(value)
+        ? `Total: $ ${value * ticketCost}`
+        : 'Total: $ 0.00';
+    });
+  </script>
 
-                    <div class="col-md-6 mb-3">
-                      <label for="validationED" class="form-label">Expiry Date</label>
-                      <input type="text" class="form-control is-invalid" id="validationED" aria-describedby="validation3Feedback" required>
-                      <div id="validation3Feedback" class="invalid-feedback">
-                        Provide Expiry Date - MM/YY
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Proceed with Purchase</button>
-                </div>
-              </div>
-            </div>
+  <!-- Comment Section -->
+  <section class="mt-5">
+    <div class="container">
+      <h4 class="text-white">Comments</h4>
+
+      <form method="POST" action="{{ url_for('events.event_details', id=event.id) }}">
+        {{ comment_form.hidden_tag() }}
+        <div class="mb-3">
+          {{ comment_form.text(
+            class="form-control",
+            rows="3",
+            placeholder="What did you think of this event?",
+            aria_label="Comment input"
+          ) }}
+        </div>
+        {{ comment_form.submit(class="btn btn-outline-light", aria_label="Post comment") }}
+      </form>
+
+      <hr class="text-white">
+
+      {% for comment in comments %}
+        <div class="card bg-dark text-white mb-3">
+          <div class="card-body">
+            <h6 class="card-title mb-1">{{ comment.user.name }}</h6>
+            <p class="card-subtitle text-muted small">
+              {{ comment.created_at.strftime('%d %b %Y %I:%M %p') }}
+            </p>
+            <p class="card-text mt-2">{{ comment.text }}</p>
           </div>
+        </div>
+      {% else %}
+        <p class="text-light">No comments yet — be the first to share your thoughts!</p>
+      {% endfor %}
+    </div>
+  </section>
 
-          </main>
-
-    <footer></footer>
-    </body>
-  </html>
-
-<!-- Ticket price change script (Source from W3 Schools: https://www.w3schools.com/js/js_htmldom_eventlistener.asp) -->
-<script>
-  const dropdown = document.getElementById('validation0');
-  const label = document.getElementById('TotalCost');
-  const ticketCost = parseFloat("{{ event.cost | float }}"); 
-
-  dropdown.addEventListener('change', () => {
-    const value = parseInt(dropdown.value);
-    label.textContent = !isNaN(value)
-      ? `Total: $ ${value * ticketCost}`
-      : 'Result will appear here';
-  });
-</script>
+</main>
 {% endblock %}

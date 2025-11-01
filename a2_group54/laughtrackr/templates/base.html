@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- Bootstrap Via CDN -->
   <head>
+    <!-- Meta & Title -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="static/style_folder/laughtrackr.css" />
     <title>Base</title>
+
+    <!-- style sheet import -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style_folder/laughtrackr.css') }}"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -13,92 +18,98 @@
       crossorigin="anonymous"
     />
   </head>
-  
-<body style="background-color: #000000d7;">
 
-    
-    
-    <!-- Navigation Bar (Sourced from Bootstrap example)-->
-     <header class = "mainNav"
-><nav
-      class="navbar navbar-expand-lg fixed-top"
-      style="background-color: #ffbfbf"
-    >
-      <div class="container-fluid" style="background-color: #ffbfbf">
-        <a class="navbar-brand" href="http://127.0.0.1:5500/IndexPage.html#"
-          >LaughTrackr</a
-        >
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-       <!-- Creating list elements for nav bar -->
-       </button>
-       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-           <li class="nav-item">
-             <a class="nav-link" href="{{ url_for('events.create') }}"
-               >All Events</a
-              >
-            </li>
-              <!-- Dropdown menu inside navbar-->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                >Account</a
-              >
-              <ul class="dropdown-menu">
-                <li class="dropdown-item">Sign In</li>
-                <li>
-                <a class="dropdown-item" href="{{ url_for('events.create') }}">Create Event</a>
+  <body style="background-color: #000000d7">
+    {% block header %}{% endblock %}
 
-                </li>
+    <!-- Navigation Bar -->
+    <header class="mainNav">
+      <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #ffbfbf">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{{ url_for('events.carousel') }}">LaughTrackr</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="http://127.0.0.1:5500/UserBookingHistoryPage.html"
-                    >Booking History</a
-                  >
-                </li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">Account Settings</a></li>
-              </ul>
-            </li>
-          </ul>
-            <!-- Search bar on right of navbar -->
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('events.all_events') }}">All Events</a>
+              </li>
+
+              <!-- Account Dropdown Options - List to change options showing for users logged in versus not-->
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Account
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('auth.logged_in') }}">Sign in</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('auth.register') }}">Register</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('events.create') }}">Create Event</a>
+                  </li>
+                  {% if current_user.is_authenticated %}
+                    <li>
+                      <a class="dropdown-item" href="{{ url_for('events.my_events') }}">My Events</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{{ url_for('booking.showhistory') }}">Booking History</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </li>
+            </ul>
+
+            <!-- Search Bar - Currently non-functioning but an example of future functionality -->
+            <form class="d-flex" role="search">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
         </div>
+      </nav>
+    </header>
+
+    <!-- Main Page Content -->
+    <main class="container mt-5">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Basic Copyright Footer -->
+    <footer class="footer" aria-label="Site footer">
+      <div class="text-center py-2" style="background-color: #ffbfbf">
+        <span class="text-dark">&copy; Pyne Corporation 2025</span>
       </div>
-    </nav>
-     </header>
-    {% block content %}
-    {% endblock %}
-</body>
-    <footer class="footer">
-        <div class="text-center py-2 bg-light">
-            <span class="text-dark">Copyright &copy; 2024</span>
-        </div>
-    </footer> 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </footer>
+
+    <!-- Bootstrap import -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

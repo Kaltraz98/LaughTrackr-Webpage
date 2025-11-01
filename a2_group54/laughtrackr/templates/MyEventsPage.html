@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <!-- Basic page to show bought tickets -->
+  <h2 class="text-white mt-5">My Created Events</h2>
+
+  {% if events %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+      {% for event in events %}
+        <div class="col">
+          <div class="card h-100">
+            <img
+              src="{{ url_for('static', filename=event.image) }}"
+              class="card-img-top"
+              alt="{{ event.name }}"
+            >
+            <div class="card-body">
+              <h5 class="card-title">{{ event.name }}</h5>
+              <p class="card-text">{{ event.description }}</p>
+              <a
+                href="{{ url_for('events.event_details', id=event.id) }}"
+                class="btn btn-primary"
+              >
+                View
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+   <!-- If no events -->
+    <p class="text-light mt-3">You haven’t created any events yet.</p>
+  {% endif %}
+{% endblock %}
