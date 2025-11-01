@@ -45,4 +45,5 @@ def create_app():
     app.register_blueprint(authbp)
     app.register_blueprint(bookingbp)
 
+
     return app

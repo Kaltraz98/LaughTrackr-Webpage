@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
- <!-- Container for content -->
 <main class="container mt-5 pt-5">
 
   <!-- Event Image -->
   <div class="row mb-4">
     {% if event.image %}
-      <img
-        src="{{ url_for('static', filename=event.image) }}"
-        class="img-fluid"
-        alt="{{ event.name }} Banner"
-      >
+      <img src="{{ url_for('static', filename=event.image) }}" class="img-fluid" alt="{{ event.name }} Banner">
     {% else %}
       <p class="text-light">No image available for this event.</p>
     {% endif %}
@@ -19,6 +14,7 @@
 
   <!-- Two-column layout -->
   <div class="row">
+
     <!-- Left Column: Event Description -->
     <div class="col-md-6">
       <div class="text_pill p-3 bg rounded" style="background-color: #ffbfbf">
@@ -26,25 +22,16 @@
         <p>{{ event.description }}</p>
 
         <div class="accordion accordion-flush" id="eventAccordion">
+
           <!-- Event Details -->
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapseOne"
-                aria-expanded="false"
-                aria-controls="flush-collapseOne"
-              >
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                 Event Details
               </button>
             </h2>
-            <div
-              id="flush-collapseOne"
-              class="accordion-collapse collapse"
-              aria-labelledby="headingOne"
-            >
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
               <div class="accordion-body">
                 <p>Date: {{ event.event_date.strftime('%B %d, %Y') }}</p>
                 <p>Start Time: {{ event.event_date.strftime('%I:%M %p') }}</p>
@@ -58,27 +45,18 @@
           <!-- Additional Info -->
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapseThree"
-                aria-expanded="false"
-                aria-controls="flush-collapseThree"
-              >
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
                 Additional Information
               </button>
             </h2>
-            <div
-              id="flush-collapseThree"
-              class="accordion-collapse collapse"
-              aria-labelledby="headingThree"
-            >
+            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
               <div class="accordion-body">
                 <p>{{ event.event_addinfo }}</p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -86,49 +64,67 @@
     <!-- Right Column: Ticket Purchase Form -->
     <div class="col-md-6">
       <div class="text_pill p-3 bg rounded" style="background-color: #ffbfbf">
-        <form
-          method="POST"
-          action="{{ url_for('booking.book_event', event_id=event.id) }}"
-          class="row g-3"
-        >
-          {{ form.hidden_tag() }}
+        {% if seats_available > 0 %}
+          <form method="POST" action="{{ url_for('booking.book_event', event_id=event.id) }}" class="row g-3">
+            {{ form.hidden_tag() }}
 
-          <!-- Ticket Quantity -->
-          <div class="mb-3">
-            {{ form.quantity.label(class="form-label") }}
-            {{ form.quantity(class="form-select is-valid", id="validation0") }}
-            <div class="valid-feedback">Tickets Available!</div>
-          </div>
-
-          <!-- Purchase Button and Total -->
-          <div class="row align-items-center my-4">
-            <div class="col">
-              {{ form.submit(class="btn btn-primary", aria_label="Purchase tickets") }}
+            <!-- Ticket Quantity -->
+            <div class="mb-3">
+              {{ form.quantity.label(class="form-label") }}
+              <select name="quantity" class="form-select is-valid" id="validation0">
+                {% for i in range(1, seats_available + 1) %}
+                  <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+              </select>
+              <div class="valid-feedback">Tickets Available!</div>
             </div>
-            <div class="col">
-              <div class="mb-3 border rounded-pill bg-white">
-                <label id="TotalCost" class="form-label px-3">Total:</label>
+
+            <!-- Purchase Button and Total -->
+            <div class="row align-items-center my-4">
+              <div class="col">
+                {{ form.submit(class="btn btn-primary", aria_label="Purchase tickets") }}
+              </div>
+              <div class="col">
+                <div class="mb-3 border rounded-pill bg-white">
+                  <label id="TotalCost" class="form-label px-3">Total:</label>
+                </div>
               </div>
             </div>
+          </form>
+        {% else %}
+          <div class="alert alert-danger" role="alert">
+            Sorry, this event is sold out!
           </div>
-        </form>
+        {% endif %}
       </div>
     </div>
+
   </div>
 
-  <!-- Ticket price change -->
+  <!-- Ticket price change script -->
+  {% if seats_available > 0 %}
   <script>
     const dropdown = document.getElementById('validation0');
     const label = document.getElementById('TotalCost');
     const ticketCost = parseFloat("{{ event.cost | float }}");
+    const seatsAvailable = parseInt("{{ seats_available }}");
 
     dropdown.addEventListener('change', () => {
       const value = parseInt(dropdown.value);
-      label.textContent = !isNaN(value)
-        ? `Total: $ ${value * ticketCost}`
-        : 'Total: $ 0.00';
+      if (!isNaN(value)) {
+        label.textContent = `Total: $ ${value * ticketCost}`;
+        if (value > seatsAvailable) {
+          const modal = new bootstrap.Modal(document.getElementById('ticketLimitModal'));
+          modal.show();
+          dropdown.value = "";
+          label.textContent = 'Total: $ 0.00';
+        }
+      } else {
+        label.textContent = 'Total: $ 0.00';
+      }
     });
   </script>
+  {% endif %}
 
   <!-- Comment Section -->
   <section class="mt-5">
@@ -138,12 +134,7 @@
       <form method="POST" action="{{ url_for('events.event_details', id=event.id) }}">
         {{ comment_form.hidden_tag() }}
         <div class="mb-3">
-          {{ comment_form.text(
-            class="form-control",
-            rows="3",
-            placeholder="What did you think of this event?",
-            aria_label="Comment input"
-          ) }}
+          {{ comment_form.text(class="form-control", rows="3", placeholder="What did you think of this event?", aria_label="Comment input") }}
         </div>
         {{ comment_form.submit(class="btn btn-outline-light", aria_label="Post comment") }}
       </form>
@@ -165,6 +156,36 @@
       {% endfor %}
     </div>
   </section>
+
+  <!-- Ticket Limit Modal -->
+  <div class="modal fade" id="ticketLimitModal" tabindex="-1" aria-labelledby="ticketLimitLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content bg-warning text-dark">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ticketLimitLabel">Ticket Limit Exceeded</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Sorry, there are only {{ seats_available }} seats available for this event.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show mt-4" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
 </main>
 {% endblock %}

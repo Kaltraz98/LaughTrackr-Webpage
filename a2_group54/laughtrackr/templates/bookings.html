@@ -11,11 +11,19 @@
          <!-- List bookings -->
           <div class="col-md-6 mb-4">
             <div class="card bg-dark text-white">
-              <img
-                src="{{ url_for('static', filename=booking.event.image) }}"
-                class="card-img-top"
-                alt="{{ booking.event.name }}"
-              >
+              {% if booking.event.image %}
+                <img
+                  src="{{ url_for('static', filename=booking.event.image) }}"
+                  class="card-img-top"
+                  alt="{{ booking.event.name }}"
+                >
+              {% else %}
+                <img
+                  src="{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}"
+                  class="card-img-top"
+                  alt="Default image"
+                >
+              {% endif %}
               <div class="card-body">
                 <h5 class="card-title">{{ booking.event.name }}</h5>
                 <p class="card-text">{{ booking.event.description }}</p>

@@ -19,9 +19,9 @@
           <div class="col">
             <div class="card h-100 shadow-sm">
               <img
-                src="{{ url_for('static', filename=event.image) }}"
-                class="card-img-top"
-                alt="{{ event.name }}"
+              src="{% if event.image %}{{ url_for('static', filename=event.image) }}{% else %}{{ url_for('static', filename='img_folder/JimmyBeast.jpg') }}{% endif %}"
+              class="card-img-top"
+              alt="{{ event.name }}"
               >
               <div class="card-body">
                 <h5 class="card-title">{{ event.name }}</h5>

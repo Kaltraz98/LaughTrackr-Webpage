@@ -10,6 +10,7 @@ from .Userforms import BookingForm, CommentForm
 
 # Create blueprint
 eventsbp = Blueprint('events', __name__, url_prefix='/events')
+bookingbp = Blueprint('booking', __name__, url_prefix='/booking')
 
 # Homepage carousel view
 @eventsbp.route('/homepage')
@@ -41,6 +42,10 @@ def event_details(id):
     form = BookingForm()
     comment_form = CommentForm()
 
+    # Calculate remaining seats
+    booked = db.session.query(func.sum(Booking.quantity)).filter_by(event_id=event.id).scalar() or 0
+    seats_available = event.venue.seating_capacity - booked
+
     if comment_form.validate_on_submit():
         new_comment = Comment(
             text=comment_form.text.data,
@@ -59,7 +64,8 @@ def event_details(id):
         event=event,
         form=form,
         comment_form=comment_form,
-        comments=comments
+        comments=comments,
+        seats_available=seats_available 
     )
 
 # Event creation form
@@ -98,3 +104,34 @@ def get_event(id):
 def my_events():
     user_events = Event.query.filter_by(user_id=current_user.id).all()
     return render_template('MyEventsPage.html', events=user_events)
+
+@bookingbp.route('/book/<int:event_id>', methods=['POST'])
+@login_required
+def book_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    form = BookingForm()
+
+    # Dynamically calculate remaining seats
+    booked = db.session.query(func.sum(Booking.quantity)).filter_by(event_id=event.id).scalar() or 0
+    remaining_seats = event.venue.seating_capacity - booked
+
+    if form.validate_on_submit():
+        quantity = form.quantity.data
+        if quantity > remaining_seats:
+            flash(f"Only {remaining_seats} seats are available. Please select a lower quantity.", "danger")
+            return redirect(url_for('events.event_details', id=event_id))
+
+        # Proceed with booking
+        new_booking = Booking(
+            user_id=current_user.id,
+            event_id=event.id,
+            quantity=quantity
+        )
+        db.session.add(new_booking)
+        db.session.commit()
+
+        flash("Tickets successfully booked!", "success")
+        return redirect(url_for('events.event_details', id=event_id))
+
+    flash("There was an error with your submission.", "danger")
+    return redirect(url_for('events.event_details', id=event_id))
