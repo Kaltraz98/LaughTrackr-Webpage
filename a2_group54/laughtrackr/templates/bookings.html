@@ -12,7 +12,7 @@
           <div class="col-md-6 mb-4">
             <div class="card bg-dark text-white">
               <img
-                src="{{ booking.event.image }}"
+                src="{{ url_for('static', filename=booking.event.image) }}"
                 class="card-img-top"
                 alt="{{ booking.event.name }}"
               >
